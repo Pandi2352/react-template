@@ -2,5 +2,7 @@ export { Home } from './Home';
 export { Login } from './Login';
 export { Register } from './Register';
 export { Dashboard } from './Dashboard';
+export { AllDeals } from './AllDeals';
 export { Settings } from './Settings';
 export { NotFound } from './NotFound';
+export { DummyPage } from './DummyPage';

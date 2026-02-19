@@ -1,8 +1,8 @@
-import { Outlet } from 'react-router-dom';
-import { cn } from '@/utils';
-import { useUI } from '@/hooks';
-import { Sidebar } from './Sidebar';
-import { Navbar } from './Navbar';
+import { Outlet } from "react-router-dom";
+import { cn } from "@/utils";
+import { useUI } from "@/hooks";
+import { Sidebar } from "./Sidebar";
+import { Navbar } from "./Navbar";
 
 export function AuthenticatedLayout() {
   const { isSidebarCollapsed } = useUI();
@@ -12,12 +12,12 @@ export function AuthenticatedLayout() {
       <Sidebar />
       <div
         className={cn(
-          'transition-all duration-300',
-          isSidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64',
+          "transition-all duration-300",
+          isSidebarCollapsed ? "lg:ml-16" : "lg:ml-64",
         )}
       >
         <Navbar />
-        <main className="p-4 sm:p-6 lg:p-8">
+        <main className="p-4 sm:p-4 lg:p-4">
           <Outlet />
         </main>
       </div>

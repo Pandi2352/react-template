@@ -230,3 +230,33 @@ body {
 @keyframes splashSegFill {
   to { width: 100%; }
 }
+
+/* Global custom scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #f1f5f9;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #a3b8cf 0%, #8fa6bf 100%);
+  border: 1px solid #f1f5f9;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #93acc8 0%, #7f98b3 100%);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #7f98b3 0%, #6d86a1 100%);
+}
