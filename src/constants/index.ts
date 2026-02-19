@@ -28,5 +28,6 @@ export const APP_CONSTANTS = {
     AUTH_USER: 'auth_user',
     THEME: 'theme',
     SIDEBAR_COLLAPSED: 'sidebar_collapsed',
+    TABLE_SETTINGS: 'table_settings',
   },
 } as const;

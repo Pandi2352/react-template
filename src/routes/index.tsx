@@ -1,29 +1,48 @@
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import { RootLayout, AuthenticatedLayout } from '@/components/layout';
-import { ProtectedRoute, GuestRoute } from '@/components/common';
+import { AuthenticatedLayout } from '@/components/layout';
+import { ProtectedRoute, GuestRoute, Loading } from '@/components/common';
 import { ROUTES } from '@/constants';
-import { Home, Login, Register, Dashboard, AllDeals, Settings, NotFound, DummyPage } from '@/pages';
+import { DummyPage } from '@/pages';
+
+/* ── Lazy-loaded pages ── */
+
+const Home = lazy(() => import('@/pages/Home').then((m) => ({ default: m.Home })));
+const Login = lazy(() => import('@/pages/Login').then((m) => ({ default: m.Login })));
+const Register = lazy(() => import('@/pages/Register').then((m) => ({ default: m.Register })));
+const Dashboard = lazy(() => import('@/pages/Dashboard').then((m) => ({ default: m.Dashboard })));
+const AllDeals = lazy(() => import('@/pages/AllDeals').then((m) => ({ default: m.AllDeals })));
+const LeadManagement = lazy(() => import('@/pages/LeadManagement').then((m) => ({ default: m.LeadManagement })));
+const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
+const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
+
+/* ── Suspense wrapper ── */
+
+function Lazy({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<Loading className="min-h-[50vh]" />}>
+      {children}
+    </Suspense>
+  );
+}
+
+/* ── Router ── */
 
 export const router = createBrowserRouter([
-  // Public layout (Header + Footer)
+  // Root redirect: splash → login (or dashboard if authenticated)
+  { path: ROUTES.HOME, element: <Lazy><Home /></Lazy> },
+
+  // Guest-only routes (full-screen, no header/footer)
   {
-    element: <RootLayout />,
+    element: <GuestRoute />,
     children: [
-      { path: ROUTES.HOME, element: <Home /> },
-
-      // Guest-only routes (redirect to dashboard if already logged in)
-      {
-        element: <GuestRoute />,
-        children: [
-          { path: ROUTES.LOGIN, element: <Login /> },
-          { path: ROUTES.REGISTER, element: <Register /> },
-        ],
-      },
-
-      // 404
-      { path: '*', element: <NotFound /> },
+      { path: ROUTES.LOGIN, element: <Lazy><Login /></Lazy> },
+      { path: ROUTES.REGISTER, element: <Lazy><Register /></Lazy> },
     ],
   },
+
+  // 404
+  { path: '*', element: <Lazy><NotFound /></Lazy> },
 
   // Authenticated layout (Sidebar + Navbar)
   {
@@ -32,7 +51,7 @@ export const router = createBrowserRouter([
       {
         element: <AuthenticatedLayout />,
         children: [
-          { path: ROUTES.DASHBOARD, element: <Dashboard /> },
+          { path: ROUTES.DASHBOARD, element: <Lazy><Dashboard /></Lazy> },
           {
             path: ROUTES.TEAM_DASHBOARDS,
             element: <DummyPage title="Team Dashboards" />,
@@ -43,11 +62,11 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.LEAD_MANAGEMENT,
-            element: <DummyPage title="Lead Management" />,
+            element: <Lazy><LeadManagement /></Lazy>,
           },
           {
             path: ROUTES.ALL_DEALS,
-            element: <AllDeals />,
+            element: <Lazy><AllDeals /></Lazy>,
           },
           {
             path: ROUTES.PROSPECTS,
@@ -93,7 +112,7 @@ export const router = createBrowserRouter([
             path: ROUTES.INTELLIGENCE,
             element: <DummyPage title="Intelligence" />,
           },
-          { path: ROUTES.SETTINGS, element: <Settings /> },
+          { path: ROUTES.SETTINGS, element: <Lazy><Settings /></Lazy> },
         ],
       },
     ],
