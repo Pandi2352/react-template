@@ -2,13 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="React + TypeScript + Vite project template" />
+
+    <!-- Primary Meta -->
     <title>React Template</title>
+    <meta name="description" content="Production-ready React CRM template built with TypeScript, Vite & Tailwind CSS" />
+    <meta name="author" content="React Template" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="color-scheme" content="light" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="React Template" />
+    <meta property="og:description" content="Production-ready React CRM template built with TypeScript, Vite & Tailwind CSS" />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="React Template" />
+    <meta name="twitter:description" content="Production-ready React CRM template built with TypeScript, Vite & Tailwind CSS" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="apple-touch-icon" href="/vite.svg" />
+
+    <!-- DNS prefetch for API (update domain when connecting to backend) -->
+    <link rel="dns-prefetch" href="//localhost:8000" />
+    <link rel="preconnect" href="//localhost:8000" crossorigin />
+
+    <!-- Preload critical font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+
+    <!-- Initial loading styles (visible before JS loads) -->
+    <style>
+      body { margin: 0; background: #fff; font-family: Inter, system-ui, -apple-system, sans-serif; }
+      .app-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 16px; }
+      .app-loader-spinner { width: 36px; height: 36px; border: 3px solid #e5e7eb; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; }
+      .app-loader-text { font-size: 14px; color: #6b7280; letter-spacing: 0.025em; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      noscript .noscript-msg { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 12px; text-align: center; padding: 24px; }
+      noscript .noscript-msg h1 { font-size: 20px; font-weight: 600; color: #1f2937; margin: 0; }
+      noscript .noscript-msg p { font-size: 14px; color: #6b7280; margin: 0; max-width: 400px; line-height: 1.6; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- App mount point with loading fallback visible in page source & before JS hydrates -->
+    <div id="root">
+      <div class="app-loader">
+        <div class="app-loader-spinner"></div>
+        <p class="app-loader-text">Loading application...</p>
+      </div>
+    </div>
+
+    <!-- Fallback for users with JavaScript disabled -->
+    <noscript>
+      <div class="noscript-msg">
+        <h1>JavaScript Required</h1>
+        <p>This application requires JavaScript to run. Please enable JavaScript in your browser settings and reload the page.</p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

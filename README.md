@@ -22,15 +22,18 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | | Feature | Details |
 |---|---|---|
 | 🚀 | **Lazy-loaded routes** | Each page is a separate chunk — only loads when visited |
+| 📦 | **Vendor splitting** | React, Router, Charts, Utils in separate cached chunks |
+| 🗜️ | **Gzip + Brotli** | Pre-compressed `.gz` and `.br` for every asset |
 | 🛡️ | **Error Boundary** | Global crash handler with retry/reload/go-home actions |
 | 📊 | **DataTable** | Reusable table with 11+ settings, pagination, frozen columns, localStorage persistence |
 | 🔐 | **Auth system** | Context-based auth with token storage, route guards, auto-restore |
 | 🎨 | **Component library** | 16+ production-ready UI components |
-| 📦 | **Export** | CSV & Excel export from any table with zero config |
+| 📤 | **Export** | CSV & Excel export from any table with zero config |
 | 🔍 | **Search & Filter** | Reusable SearchInput, custom Dropdown (no native `<select>`) |
 | 🌐 | **GTranslate** | Google Translate widget with host-aware language config |
 | 🍞 | **Toast system** | Success, error, warning, info notifications |
 | 📱 | **Responsive** | Mobile drawer sidebar, collapsible desktop sidebar |
+| 🔎 | **SEO-ready HTML** | Meta tags, Open Graph, Twitter Card, `<noscript>`, inline loader |
 
 ---
 
@@ -423,24 +426,54 @@ Global crash handler that wraps the entire app. Catches any unhandled React erro
 
 ## ⚡ Performance
 
-### Lazy-loaded Routes
+### Vendor Splitting & Compression
 
-All pages are code-split using `React.lazy()` + `Suspense`. Each page loads only when visited:
+The build produces optimized, cache-friendly chunks with gzip + brotli pre-compression:
 
 ```
 dist/
-├── index.js              314 kB   ← core (framework + layout)
-├── AllDeals.js             7.2 kB ← loads on /sales-funnel/all-deals
-├── LeadManagement.js       8.4 kB ← loads on /lead-management
-├── Dashboard.js            1.9 kB ← loads on /dashboard
-├── Login.js                1.6 kB ← loads on /login
-├── Register.js             1.8 kB ← loads on /register
-├── Settings.js             1.4 kB ← loads on /settings
-├── Home.js                 0.3 kB ← initial redirect
-└── NotFound.js             0.9 kB ← 404 only
+├── vendor-react.js       190.5 kB (59.8 kB gz)  ← React + ReactDOM (cached)
+├── vendor-router.js       84.1 kB (27.6 kB gz)  ← React Router (cached)
+├── index.js               30.5 kB ( 9.5 kB gz)  ← app shell + layout
+├── Dropdown.js            17.5 kB ( 5.4 kB gz)  ← DataTable settings UI
+├── vendor-utils.js        11.2 kB ( 4.0 kB gz)  ← Axios + Lucide icons
+├── LeadManagement.js       8.5 kB ( 2.5 kB gz)  ← lazy page chunk
+├── AllDeals.js             7.3 kB ( 2.2 kB gz)  ← lazy page chunk
+├── Input.js                4.2 kB ( 1.5 kB gz)  ← shared form component
+├── Dashboard.js            1.8 kB ( 0.8 kB gz)  ← lazy page chunk
+├── Login.js / Register.js  ~1.8 kB each          ← auth pages
+├── Settings.js             1.5 kB                ← lazy page chunk
+├── NotFound.js             0.8 kB                ← 404 only
+└── Home.js                 0.3 kB                ← initial redirect
 ```
 
-A loading spinner is shown while chunks are being fetched.
+### Build Optimizations
+
+| Optimization | Details |
+|---|---|
+| **Vendor splitting** | `react`, `react-router`, `recharts/d3`, `axios/lucide` in separate cached chunks |
+| **Terser minification** | Smaller output than default esbuild; strips `console.*` and `debugger` |
+| **Gzip + Brotli** | Pre-compressed `.gz` and `.br` files for every asset |
+| **No sourcemaps** | Disabled in production (`sourcemap: false`) |
+| **Bundle visualizer** | `dist/stats.html` generated on each build |
+| **DNS prefetch** | `<link rel="dns-prefetch">` + `<link rel="preconnect">` for API domain |
+
+### Lazy-loaded Routes
+
+All pages are code-split using `React.lazy()` + `Suspense`. Each page loads only when visited. A loading spinner is shown while chunks are being fetched.
+
+### View Page Source
+
+The `index.html` is production-ready for "View Page Source":
+
+| Feature | Details |
+|---|---|
+| **SEO meta tags** | `description`, `author`, `theme-color`, `color-scheme` |
+| **Open Graph** | `og:type`, `og:title`, `og:description`, `og:image` for link previews |
+| **Twitter Card** | `twitter:card`, `twitter:title`, `twitter:description` |
+| **Inline loader** | Styled spinner inside `<div id="root">` — visible before JS loads |
+| **`<noscript>` fallback** | Friendly message if JavaScript is disabled |
+| **Critical CSS inlined** | Loader styles are in `<style>` — no external CSS needed for first paint |
 
 ### Other Optimizations
 
