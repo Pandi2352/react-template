@@ -27,6 +27,7 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | 🛡️ | **Error Boundary** | Global crash handler with retry/reload/go-home actions |
 | 📊 | **DataTable** | Reusable table with 11+ settings, pagination, frozen columns, localStorage persistence |
 | 🔐 | **Auth system** | Context-based auth with token storage, route guards, auto-restore |
+| 💀 | **Skeleton loaders** | 7 presets (card, table, text, profile, form, page) — used as route fallbacks |
 | 🎨 | **Component library** | 16+ production-ready UI components |
 | 📤 | **Export** | CSV & Excel export from any table with zero config |
 | 🔍 | **Search & Filter** | Reusable SearchInput, custom Dropdown (no native `<select>`) |
@@ -118,7 +119,8 @@ src/
 │   │   ├── Dropdown.tsx         # 🆕 Custom dropdown (replaces <select>)
 │   │   ├── ExportMenu.tsx       # 🆕 CSV/Excel export dropdown
 │   │   ├── Pagination.tsx       # 🆕 Page navigation with ellipsis
-│   │   └── ErrorBoundary.tsx    # 🆕 Global crash handler
+│   │   ├── ErrorBoundary.tsx    # 🆕 Global crash handler
+│   │   └── Skeleton.tsx         # 🆕 Skeleton loaders (7 presets)
 │   └── layout/
 │       ├── Header.tsx
 │       ├── Footer.tsx
@@ -212,6 +214,18 @@ src/
 | `ExportMenu<T>` | CSV/Excel export dropdown — auto-derives columns from data |
 | `Pagination` | Page navigation with first/prev/numbers/next/last + ellipsis |
 | `ErrorBoundary` | Class component crash handler with retry, reload, go home |
+
+### Skeleton Loaders
+
+| Component | Description |
+|-----------|-------------|
+| `Skeleton` | Base pulse block — `rectangle`, `circle`, or `text` variant |
+| `CardSkeleton` | Stat card grid placeholder (configurable count) |
+| `TableSkeleton` | Full table with header, rows, avatar cells, pagination bar |
+| `TextSkeleton` | Paragraph placeholder (configurable line count) |
+| `ProfileSkeleton` | Avatar + name + details layout |
+| `FormSkeleton` | Label + input field pairs with submit button |
+| `PageSkeleton` | Full page: header + cards + table combined |
 
 ---
 
@@ -420,6 +434,72 @@ Global crash handler that wraps the entire app. Catches any unhandled React erro
 <ErrorBoundary fallback={<MyCustomErrorPage />}>
   <App />
 </ErrorBoundary>
+```
+
+---
+
+## 💀 Skeleton Loaders
+
+Content-shaped loading placeholders that replace spinners for a polished UX.
+
+### Base Skeleton
+
+```tsx
+import { Skeleton } from "@/components/common";
+
+<Skeleton variant="rectangle" width={200} height={40} />
+<Skeleton variant="circle" height={48} />
+<Skeleton variant="text" width="80%" />
+```
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"rectangle" \| "circle" \| "text"` | `"rectangle"` | Shape of the placeholder |
+| `width` | `string \| number` | — | CSS width (ignored for circle) |
+| `height` | `string \| number` | — | CSS height (for circle, also sets width) |
+| `className` | `string` | — | Additional classes |
+
+### Presets
+
+```tsx
+import {
+  CardSkeleton,
+  TableSkeleton,
+  TextSkeleton,
+  ProfileSkeleton,
+  FormSkeleton,
+  PageSkeleton,
+} from "@/components/common";
+
+// Stat cards (default: 4 cards)
+<CardSkeleton count={4} />
+
+// Full table with toolbar + header + rows + pagination
+<TableSkeleton rows={8} columns={6} showToolbar />
+
+// Paragraph lines (default: 4 lines, last line shorter)
+<TextSkeleton lines={5} />
+
+// Avatar + name + details
+<ProfileSkeleton />
+
+// Label + input pairs with submit button
+<FormSkeleton fields={4} />
+
+// Combined: page header + stat cards + table
+<PageSkeleton />
+```
+
+### Used as Route Fallbacks
+
+Skeleton presets are wired into lazy-loaded routes as `Suspense` fallbacks:
+
+```tsx
+// Dashboard shows full page skeleton while loading
+<Lazy fallback={<PageSkeleton />}><Dashboard /></Lazy>
+
+// Table pages show table skeleton while loading
+<Lazy fallback={<TableSkeleton rows={8} columns={6} />}><AllDeals /></Lazy>
 ```
 
 ---

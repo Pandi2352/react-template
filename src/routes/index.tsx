@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { AuthenticatedLayout } from '@/components/layout';
-import { ProtectedRoute, GuestRoute, Loading } from '@/components/common';
+import { ProtectedRoute, GuestRoute, Loading, PageSkeleton, TableSkeleton } from '@/components/common';
 import { ROUTES } from '@/constants';
 import { DummyPage } from '@/pages';
 
@@ -16,11 +16,11 @@ const LeadManagement = lazy(() => import('@/pages/LeadManagement').then((m) => (
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
 
-/* ── Suspense wrapper ── */
+/* ── Suspense wrappers ── */
 
-function Lazy({ children }: { children: React.ReactNode }) {
+function Lazy({ children, fallback }: { children: React.ReactNode; fallback?: React.ReactNode }) {
   return (
-    <Suspense fallback={<Loading className="min-h-[50vh]" />}>
+    <Suspense fallback={fallback ?? <Loading className="min-h-[50vh]" />}>
       {children}
     </Suspense>
   );
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
       {
         element: <AuthenticatedLayout />,
         children: [
-          { path: ROUTES.DASHBOARD, element: <Lazy><Dashboard /></Lazy> },
+          { path: ROUTES.DASHBOARD, element: <Lazy fallback={<PageSkeleton />}><Dashboard /></Lazy> },
           {
             path: ROUTES.TEAM_DASHBOARDS,
             element: <DummyPage title="Team Dashboards" />,
@@ -62,11 +62,11 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.LEAD_MANAGEMENT,
-            element: <Lazy><LeadManagement /></Lazy>,
+            element: <Lazy fallback={<TableSkeleton rows={8} columns={6} />}><LeadManagement /></Lazy>,
           },
           {
             path: ROUTES.ALL_DEALS,
-            element: <Lazy><AllDeals /></Lazy>,
+            element: <Lazy fallback={<TableSkeleton rows={8} columns={6} />}><AllDeals /></Lazy>,
           },
           {
             path: ROUTES.PROSPECTS,
