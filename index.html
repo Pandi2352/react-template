@@ -22,16 +22,23 @@
     <meta name="twitter:title" content="React Template" />
     <meta name="twitter:description" content="Production-ready React CRM template built with TypeScript, Vite & Tailwind CSS" />
 
+    <!-- Security (X-Frame-Options & CSP must be set as HTTP headers by your server/CDN, not meta tags) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="apple-touch-icon" href="/vite.svg" />
 
-    <!-- DNS prefetch for API (update domain when connecting to backend) -->
-    <link rel="dns-prefetch" href="//localhost:8000" />
-    <link rel="preconnect" href="//localhost:8000" crossorigin />
+    <!--
+      Uncomment when connecting to a real backend:
+      <link rel="dns-prefetch" href="//your-api.example.com" />
+      <link rel="preconnect" href="//your-api.example.com" crossorigin />
 
-    <!-- Preload critical font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+      Uncomment when using Google Fonts:
+      <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    -->
 
     <!-- Initial loading styles (visible before JS loads) -->
     <style>
