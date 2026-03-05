@@ -1,4 +1,3 @@
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ZAxis } from 'recharts';
 
 /**
  * Purpose: High-precision categorical rankings.

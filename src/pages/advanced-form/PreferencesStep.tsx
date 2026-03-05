@@ -10,7 +10,7 @@ interface Props {
   onChange: (u: Partial<Preferences>) => void;
 }
 
-export function PreferencesStep({ data, errors, onChange }: Props) {
+export function PreferencesStep({ data, onChange }: Props) {
   function toggleArrayItem(arr: string[], item: string) {
     return arr.includes(item) ? arr.filter((x) => x !== item) : [...arr, item];
   }

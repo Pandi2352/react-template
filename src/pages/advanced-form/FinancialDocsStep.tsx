@@ -1,7 +1,6 @@
 import { useRef } from 'react';
-import { Upload, FileText, Trash2, FileImage, File } from 'lucide-react';
+import { Upload, Trash2, FileImage, File } from 'lucide-react';
 import { Input, Dropdown } from '@/components/common';
-import { cn } from '@/utils';
 import { useUI } from '@/hooks';
 import type { FinancialDocs, UploadedFile, FormErrors } from './types';
 import { INCOME_OPTIONS, CURRENCY_OPTIONS } from './constants';

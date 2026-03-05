@@ -1,5 +1,4 @@
-import { User, Phone, GraduationCap, Landmark, SlidersHorizontal, Share2, Star } from 'lucide-react';
-import { cn } from '@/utils';
+import { User, Phone, GraduationCap, Landmark, SlidersHorizontal, Share2 } from 'lucide-react';
 import type {
   PersonalDetails, ContactAddress, EducationWork,
   FinancialDocs, Preferences, SocialContent, Agreements, FormErrors,
@@ -94,7 +93,7 @@ export function ReviewSubmitStep({
           <h3 className="text-sm font-semibold text-gray-800">Education & Work</h3>
         </div>
         <div className="space-y-3 p-4">
-          {eduWork.education.map((ed, i) => (
+          {eduWork.education.map((ed) => (
             <div key={ed.id} className="rounded-md bg-gray-50 px-3 py-2">
               <p className="text-sm font-medium text-gray-800">
                 {findLabel(DEGREE_OPTIONS, ed.degree)} — {ed.institution}
