@@ -1,11 +1,14 @@
 import {
   Brain,
   CalendarDays,
+  ClipboardList,
   Database,
   Filter,
   LayoutDashboard,
   Megaphone,
   Settings,
+  Sparkles,
+  Rocket,
   Users,
   type LucideIcon,
 } from 'lucide-react';
@@ -52,19 +55,14 @@ export const sidebarMenuItems: SidebarItem[] = [
     icon: Filter,
     defaultOpen: true,
     children: [
-      { id: 'all-deals', label: 'All Deals', to: ROUTES.ALL_DEALS },
-      { id: 'prospects', label: 'Prospects', to: ROUTES.PROSPECTS },
-      { id: 'mqls', label: 'MQLs', to: ROUTES.MQLS },
-      { id: 'sqls', label: 'SQLs', to: ROUTES.SQLS },
-      { id: 'opportunities', label: 'Opportunities', to: ROUTES.OPPORTUNITIES },
-      { id: 'proposals', label: 'Proposals', to: ROUTES.PROPOSALS },
-      { id: 'negotiation', label: 'Negotiation', to: ROUTES.NEGOTIATION },
-      { id: 'won', label: 'Won', to: ROUTES.WON },
-      { id: 'lost', label: 'Lost', to: ROUTES.LOST },
+      { id: 'all-deals', label: 'All Deals', to: ROUTES.ALL_DEALS }
     ],
   },
   { id: 'calendar', label: 'Calendar & Tasks', icon: CalendarDays, to: ROUTES.CALENDAR_TASKS },
   { id: 'campaigns', label: 'Campaigns', icon: Megaphone, to: ROUTES.CAMPAIGNS },
   { id: 'intelligence', label: 'Intelligence', icon: Brain, to: ROUTES.INTELLIGENCE },
+  { id: 'simple-form', label: 'Simple Form', icon: ClipboardList, to: ROUTES.SIMPLE_FORM },
+  { id: 'awesome-form', label: 'Awesome Form', icon: Sparkles, to: ROUTES.AWESOME_FORM },
+  { id: 'advanced-form', label: 'Advanced Form', icon: Rocket, to: ROUTES.ADVANCED_FORM },
   { id: 'settings', label: 'Settings', icon: Settings, to: ROUTES.SETTINGS },
 ];

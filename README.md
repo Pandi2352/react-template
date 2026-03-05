@@ -29,6 +29,7 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | 🔐 | **Auth system** | Context-based auth with token storage, route guards, auto-restore |
 | 💀 | **Skeleton loaders** | 7 presets (card, table, text, profile, form, page) — used as route fallbacks |
 | 🎨 | **Component library** | 16+ production-ready UI components |
+| 📝 | **Form showcase** | 3 forms: Simple, Awesome (multi-step), Advanced (7-step, every field type) |
 | 📤 | **Export** | CSV & Excel export from any table with zero config |
 | 🔍 | **Search & Filter** | Reusable SearchInput, custom Dropdown (no native `<select>`) |
 | 🌐 | **GTranslate** | Google Translate widget with host-aware language config |
@@ -160,6 +161,33 @@ src/
 │   ├── Dashboard.tsx      # Protected dashboard with stats grid
 │   ├── AllDeals.tsx       # 🆕 Pipeline table with DataTable
 │   ├── LeadManagement.tsx # 🆕 Lead table with DataTable
+│   ├── SimpleForm.tsx     # 📝 Simple contact form with validation
+│   ├── AwesomeForm.tsx    # 📝 Re-export → awesome-form/
+│   ├── AdvancedForm.tsx   # 📝 Re-export → advanced-form/
+│   ├── awesome-form/      # 📝 4-step multi-step form
+│   │   ├── index.tsx      #   Orchestrator (state + navigation)
+│   │   ├── types.ts       #   Interfaces
+│   │   ├── constants.ts   #   Dropdown options & step config
+│   │   ├── validation.ts  #   Per-step validation + password strength
+│   │   ├── StepProgress.tsx
+│   │   ├── PersonalStep.tsx
+│   │   ├── ProfessionalStep.tsx
+│   │   ├── AccountStep.tsx
+│   │   └── ReviewStep.tsx
+│   ├── advanced-form/     # 📝 7-step advanced form (every field type)
+│   │   ├── index.tsx      #   Orchestrator (state + navigation)
+│   │   ├── types.ts       #   Interfaces
+│   │   ├── constants.ts   #   All dropdown options & config
+│   │   ├── validation.ts  #   Per-step validation
+│   │   ├── StepIndicator.tsx
+│   │   ├── SignaturePad.tsx
+│   │   ├── PersonalDetailsStep.tsx
+│   │   ├── ContactAddressStep.tsx
+│   │   ├── EducationWorkStep.tsx
+│   │   ├── FinancialDocsStep.tsx
+│   │   ├── PreferencesStep.tsx
+│   │   ├── SocialContentStep.tsx
+│   │   └── ReviewSubmitStep.tsx
 │   ├── Settings.tsx       # Protected settings page
 │   ├── NotFound.tsx       # 404 page
 │   └── DummyPage.tsx      # Placeholder for unimplemented routes
@@ -504,6 +532,49 @@ Skeleton presets are wired into lazy-loaded routes as `Suspense` fallbacks:
 
 ---
 
+## 📝 Forms
+
+Three form pages demonstrating every common form pattern — from basic to comprehensive.
+
+### Simple Form (`/simple-form`)
+
+A clean contact form with inline validation, blur-based error display, character counter, and reset functionality.
+
+**Fields:** Text inputs, email, textarea
+
+---
+
+### Awesome Form (`/awesome-form`)
+
+A 4-step multi-step wizard for account creation.
+
+| Step | Fields |
+|------|--------|
+| **Personal** | First/last name, email, phone, date of birth, drag & drop avatar upload |
+| **Professional** | Company, job title, department/experience dropdowns, salary range slider, skill tags with suggestions, bio textarea |
+| **Account** | Username, password with show/hide toggle & strength meter, confirm password, notification toggles (email/sms/push), theme dropdown, terms checkbox |
+| **Review** | Full summary organized by section, avatar preview |
+
+---
+
+### Advanced Form (`/advanced-form`)
+
+A 7-step comprehensive form covering **every possible field type** — built for learning and reference.
+
+| Step | Field Types Covered |
+|------|-------------------|
+| **1. Personal Details** | Prefix/suffix dropdowns, text inputs, custom radio group (styled cards), date picker, auto-calculated age, nationality dropdown, marital status, blood group |
+| **2. Contact & Address** | Primary/secondary email, phone with country code dropdown, URL input, full address grid, conditional billing address (same-as-mailing checkbox) |
+| **3. Education & Work** | Dynamic repeatable sections (add/remove), dropdowns inside repeaters, "currently working" checkbox, textarea descriptions, tag inputs for certifications & languages with proficiency badges |
+| **4. Financial & Docs** | Income range, currency dropdown, tax/PAN inputs, bank details section, multi-file drag & drop upload with file type icons, size display, image preview, delete |
+| **5. Preferences** | Color picker, 3 range sliders, radio cards (with visual icons), checkbox group, chip toggle group, star rating (1-5), priority selector (colored buttons), time pickers, date range, 4 toggle switches with descriptions |
+| **6. Social & Content** | Social links with branded icons (LinkedIn/GitHub/Twitter/Globe), short bio textarea, cover letter (long markdown textarea), tags input, conditional field (referral source → "Other" shows extra input) |
+| **7. Review & Submit** | Full data summary by section, terms/privacy checkboxes, marketing opt-in, canvas signature pad (mouse + touch), additional notes textarea |
+
+**Extra features:** Clickable step indicator (jump to completed steps), overall progress bar with percentage, per-step validation with real-time error clearing.
+
+---
+
 ## ⚡ Performance
 
 ### Vendor Splitting & Compression
@@ -575,6 +646,9 @@ The `index.html` is production-ready for "View Page Source":
 | `/dashboard` | Dashboard | Authenticated | Protected |
 | `/lead-management` | Lead Management | Authenticated | Protected |
 | `/sales-funnel/all-deals` | All Deals | Authenticated | Protected |
+| `/simple-form` | Simple Form | Authenticated | Protected |
+| `/awesome-form` | Awesome Form | Authenticated | Protected |
+| `/advanced-form` | Advanced Form | Authenticated | Protected |
 | `/settings` | Settings | Authenticated | Protected |
 | `*` | NotFound | — | Public |
 

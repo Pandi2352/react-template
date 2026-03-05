@@ -7,3 +7,6 @@ export { LeadManagement } from './LeadManagement';
 export { Settings } from './Settings';
 export { NotFound } from './NotFound';
 export { DummyPage } from './DummyPage';
+export { SimpleForm } from './SimpleForm';
+export { AwesomeForm } from './AwesomeForm';
+export { AdvancedForm } from './AdvancedForm';

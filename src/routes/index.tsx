@@ -13,6 +13,9 @@ const Register = lazy(() => import('@/pages/Register').then((m) => ({ default: m
 const Dashboard = lazy(() => import('@/pages/Dashboard').then((m) => ({ default: m.Dashboard })));
 const AllDeals = lazy(() => import('@/pages/AllDeals').then((m) => ({ default: m.AllDeals })));
 const LeadManagement = lazy(() => import('@/pages/LeadManagement').then((m) => ({ default: m.LeadManagement })));
+const SimpleForm = lazy(() => import('@/pages/SimpleForm').then((m) => ({ default: m.SimpleForm })));
+const AwesomeForm = lazy(() => import('@/pages/AwesomeForm').then((m) => ({ default: m.AwesomeForm })));
+const AdvancedForm = lazy(() => import('@/pages/AdvancedForm').then((m) => ({ default: m.AdvancedForm })));
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
 
@@ -112,6 +115,9 @@ export const router = createBrowserRouter([
             path: ROUTES.INTELLIGENCE,
             element: <DummyPage title="Intelligence" />,
           },
+          { path: ROUTES.SIMPLE_FORM, element: <Lazy><SimpleForm /></Lazy> },
+          { path: ROUTES.AWESOME_FORM, element: <Lazy><AwesomeForm /></Lazy> },
+          { path: ROUTES.ADVANCED_FORM, element: <Lazy><AdvancedForm /></Lazy> },
           { path: ROUTES.SETTINGS, element: <Lazy><Settings /></Lazy> },
         ],
       },

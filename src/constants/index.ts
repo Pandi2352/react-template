@@ -18,6 +18,9 @@ export const ROUTES = {
   CALENDAR_TASKS: '/calendar-tasks',
   CAMPAIGNS: '/campaigns',
   INTELLIGENCE: '/intelligence',
+  SIMPLE_FORM: '/simple-form',
+  AWESOME_FORM: '/awesome-form',
+  ADVANCED_FORM: '/advanced-form',
   SETTINGS: '/settings',
 } as const;
 
