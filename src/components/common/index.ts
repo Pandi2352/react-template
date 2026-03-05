@@ -5,8 +5,6 @@ export { Modal } from './Modal';
 export { ConfirmDialog } from './ConfirmDialog';
 export { ToastViewport } from './ToastViewport';
 export { Tooltip } from './Tooltip';
-export { ProtectedRoute } from './ProtectedRoute';
-export { GuestRoute } from './GuestRoute';
 export { GTranslate } from './GTranslate';
 export { ExportMenu } from './ExportMenu';
 export { SearchInput } from './SearchInput';
@@ -27,3 +25,11 @@ export {
   FormSkeleton,
   PageSkeleton,
 } from './Skeleton';
+export { PremiumFileUploader } from './PremiumFileUploader';
+export { PremiumActivityFeed } from './PremiumActivityFeed';
+export { PremiumOnboardingWizard } from './PremiumOnboardingWizard';
+export { RolePermissionMatrix } from './RolePermissionMatrix';
+export { PremiumPricingTable } from './PremiumPricingTable';
+export { PremiumStatsGrid } from './PremiumStatsGrid';
+export { PremiumTimeline } from './PremiumTimeline';
+export { PremiumAuditLog } from './PremiumAuditLog';

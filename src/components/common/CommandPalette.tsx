@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { Command } from 'cmdk';
 import { useNavigate } from 'react-router-dom';
-import { Search, LayoutDashboard, FileText, Settings, LogOut, Sun, Maximize2, Minimize2 } from 'lucide-react';
+import { Search, LayoutDashboard, FileText, Settings, Sun, Maximize2, Minimize2 } from 'lucide-react';
 import { ROUTES } from '@/constants';
-import { useAuth, useUI } from '@/hooks';
+import { useUI } from '@/hooks';
 
 export function CommandPalette() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
   const { addToast, isCommandOpen, setCommandOpen, isFocusMode, setFocusMode } = useUI();
 
   // Toggle the menu when ⌘K is pressed
@@ -95,10 +94,6 @@ export function CommandPalette() {
             })} className="aria-selected:bg-primary/10 aria-selected:text-primary transition-colors">
               <Sun className="mr-3 h-4 w-4" />
               <span>Toggle Theme</span>
-            </Command.Item>
-            <Command.Item onSelect={() => runCommand(() => logout())} className="aria-selected:bg-red-50 text-red-600 transition-colors mt-2">
-              <LogOut className="mr-3 h-4 w-4" />
-              <span>Log out</span>
             </Command.Item>
           </Command.Group>
         </Command.List>

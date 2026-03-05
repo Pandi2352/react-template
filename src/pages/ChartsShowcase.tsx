@@ -23,24 +23,48 @@ import {
   RangeAreaPredictionChart,
   BoxWhiskerDistributionChart
 } from '@/components/charts/advanced';
-import { Info, BarChart3, TrendingUp } from 'lucide-react';
+import {
+  SalesFunnelChart,
+  FinancialWaterfallChart,
+  PerformanceGaugeChart,
+  ProgressSemicircleChart,
+  PyramidPopulationChart,
+  SyncedMetricsGroup,
+  RevenueSparklineGrid,
+  SlopeMetricCompare,
+  StepPriceChangeChart,
+  LollipopRankingChart,
+  BulletBaselineChart,
+  DumbbellComparisonChart,
+  NightingaleRoseChart,
+  VariableRadiusPieChart,
+  Pareto8020Chart,
+  DivergingBarSentiment,
+  StreamVolumeGraph,
+  ErrorBarPrecisionChart,
+  RadarComplexProfile,
+  MultiMetricRangeBar
+} from '@/components/charts/premium';
+import { Info, BarChart3, TrendingUp, Star } from 'lucide-react';
 import { cn } from '@/utils';
 
-const ChartCard = ({ title, description, usage, children, isAdvanced = false }: { 
+const ChartCard = ({ title, description, usage, children, variant = 'standard' }: { 
   title: string; 
   description: string; 
   usage: string; 
   children: React.ReactNode;
-  isAdvanced?: boolean;
+  variant?: 'standard' | 'advanced' | 'premium';
 }) => (
   <div className={cn(
     "flex flex-col gap-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300",
-    isAdvanced && "border-indigo-100 bg-indigo-50/5"
+    variant === 'advanced' && "border-indigo-100 bg-indigo-50/5",
+    variant === 'premium' && "border-amber-100 bg-amber-50/5"
   )}>
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2">
         <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-        {isAdvanced && <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] font-bold rounded-full uppercase">Advanced</span>}
+        {variant === 'advanced' && <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-[10px] font-bold rounded-full uppercase">Advanced</span>}
+        {variant === 'premium' && <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-bold rounded-full uppercase">Premium</span>}
       </div>
       <p className="text-sm text-gray-500 leading-relaxed font-medium">{description}</p>
     </div>
@@ -51,19 +75,28 @@ const ChartCard = ({ title, description, usage, children, isAdvanced = false }: 
 
     <div className={cn(
       "flex items-start gap-3 p-3 rounded-xl",
-      isAdvanced ? "bg-indigo-50/50" : "bg-blue-50/50"
+      variant === 'advanced' ? "bg-indigo-50/50" : variant === 'premium' ? "bg-amber-50/50" : "bg-blue-50/50"
     )}>
-      <Info className={cn("w-5 h-5 mt-0.5 flex-shrink-0", isAdvanced ? "text-indigo-500" : "text-blue-500")} />
+      <Info className={cn(
+        "w-5 h-5 mt-0.5 flex-shrink-0", 
+        variant === 'advanced' ? "text-indigo-500" : variant === 'premium' ? "text-amber-500" : "text-blue-500"
+      )} />
       <div className="flex flex-col gap-1">
-        <span className={cn("text-xs font-bold uppercase tracking-wider", isAdvanced ? "text-indigo-700" : "text-blue-700")}>Best For</span>
-        <span className={cn("text-xs font-medium", isAdvanced ? "text-indigo-600" : "text-blue-600")}>{usage}</span>
+        <span className={cn(
+          "text-xs font-bold uppercase tracking-wider", 
+          variant === 'advanced' ? "text-indigo-700" : variant === 'premium' ? "text-amber-700" : "text-blue-700"
+        )}>Best For</span>
+        <span className={cn(
+          "text-xs font-medium", 
+          variant === 'advanced' ? "text-indigo-600" : variant === 'premium' ? "text-amber-600" : "text-blue-600"
+        )}>{usage}</span>
       </div>
     </div>
   </div>
 );
 
 export function ChartsShowcase() {
-  const [activeTab, setActiveTab] = useState<'standard' | 'advanced'>('standard');
+  const [activeTab, setActiveTab] = useState<'standard' | 'advanced' | 'premium'>('standard');
 
   return (
     <div className="flex flex-col gap-10 max-w-[1600px] mx-auto pb-20">
@@ -71,7 +104,7 @@ export function ChartsShowcase() {
         <div className="space-y-2">
           <h1 className="text-4xl font-black text-gray-900 tracking-tight">Enterprise Chart Suite</h1>
           <p className="text-xl text-gray-500 max-w-3xl leading-relaxed font-medium">
-            A definitive collection of 20 purpose-built data visualizations using **Recharts** and **ApexCharts**.
+            A definitive collection of **40** purpose-built data visualizations using **Recharts** and **ApexCharts**.
           </p>
         </div>
 
@@ -84,7 +117,7 @@ export function ChartsShowcase() {
             )}
           >
             <BarChart3 className="w-4 h-4" />
-            Standard Charts (10)
+            Standard (10)
           </button>
           <button 
             onClick={() => setActiveTab('advanced')}
@@ -94,12 +127,22 @@ export function ChartsShowcase() {
             )}
           >
              <TrendingUp className="w-4 h-4" />
-            Advanced Charts (10)
+            Advanced (10)
+          </button>
+          <button 
+            onClick={() => setActiveTab('premium')}
+            className={cn(
+              "flex items-center gap-2 px-6 py-2 rounded-lg text-sm font-bold transition-all",
+              activeTab === 'premium' ? "bg-white text-amber-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+            )}
+          >
+             <Star className="w-4 h-4" />
+            Premium (20)
           </button>
         </div>
       </div>
 
-      {activeTab === 'standard' ? (
+      {activeTab === 'standard' && (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 animate-in fade-in duration-500">
           <ChartCard 
             title="Revenue Line Chart" 
@@ -181,10 +224,12 @@ export function ChartsShowcase() {
             <GoalCompletionRadialBarChart />
           </ChartCard>
         </div>
-      ) : (
+      )}
+
+      {activeTab === 'advanced' && (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 animate-in fade-in duration-500">
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Phase Timeline (Gantt)" 
             description="Professional project scheduling and task milestone visualization." 
             usage="Project management, Task dependencies, or Server uptime logging."
@@ -193,7 +238,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Market Candlestick" 
             description="Financial market price movements with High, Low, Open, and Close values." 
             usage="Trading dashboards, Stock analysis, or Currency volatility tracking."
@@ -202,7 +247,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Activity Heatmap" 
             description="Visualizing the density of events over a categorical matrix." 
             usage="Github-style user activity, Help desk ticket load by hour, or Server traffic logs."
@@ -211,7 +256,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Relational Bubble Chart" 
             description="Expanding scatter plots with a third dimension using the bubble radius." 
             usage="Market pricing vs Quality vs Popularity, Risk exposure mapping."
@@ -220,7 +265,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Multi-Level Radial Bar" 
             description="Concentric rings showing progress across many independent metrics." 
             usage="CPU/RAM/Buffer health, Sales team goal completion, Multi-skill levels."
@@ -229,7 +274,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Cyclical Polar Area" 
             description="Sector-based data distribution in a 360-degree space." 
             usage="Annual sales cycles, Category budget allocations, Survey distributions."
@@ -238,7 +283,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Hierarchical Treemap" 
             description="Revealing relative proportions using nested rectangular areas." 
             usage="Market Cap of sectors, File system usage, Asset allocation breakdown."
@@ -247,7 +292,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Brush Navigation Navigator" 
             description="High-density time-series data with a dedicated zoom/brush control." 
             usage="Yearly stock performance, high-frequency log analysis, IoT monitoring."
@@ -256,7 +301,7 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Forecasting Range Area" 
             description="Trend mapping with shaded confidence intervals and error margins." 
             usage="Revenue prediction, Prediction modeling, Quality control charts."
@@ -265,12 +310,196 @@ export function ChartsShowcase() {
           </ChartCard>
 
           <ChartCard 
-            isAdvanced
+            variant="advanced"
             title="Statistical Box Plot" 
             description="Comprehensive distribution analysis showing Min, Median, and Max outliers." 
             usage="Response time variance, Test scores distribution, Clinical results stability."
           >
             <BoxWhiskerDistributionChart />
+          </ChartCard>
+        </div>
+      )}
+
+      {activeTab === 'premium' && (
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 animate-in fade-in duration-500">
+          <ChartCard 
+            variant="premium"
+            title="Conversion Funnel" 
+            description="Multi-stage process visualization with conversion rates." 
+            usage="Sales pipelines, Marketing funnels, Recruitment tracking."
+          >
+            <SalesFunnelChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Financial Waterfall" 
+            description="Accumulated balance tracking with positive/negative shifts." 
+            usage="Cash flow analysis, Budget variances, Earnings breakdowns."
+          >
+            <FinancialWaterfallChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Efficiency Gauge" 
+            description="Speedometer-style single KPI performance monitoring." 
+            usage="Server health, Team productivity, Real-time resource utilization."
+          >
+            <PerformanceGaugeChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Semicircle Target" 
+            description="Clean 180-degree progress visualization for specific targets." 
+            usage="Monthly quota tracking, Storage capacity, Learning progress."
+          >
+            <ProgressSemicircleChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Talent Pyramid" 
+            description="Hierarchical distribution mapping for resources or personnel." 
+            usage="Staffing levels, Corporate seniority, Resource scarcity ranking."
+          >
+            <PyramidPopulationChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Synchronized Lock-Step" 
+            description="Multiple charts interacting together to reveal cross-metric trends." 
+            usage="CPU vs RAM behavior, Marketing spend vs Resulting traffic."
+          >
+            <SyncedMetricsGroup />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Sparkline Micro-Stats" 
+            description="High-density minimal graphs for quick dashboard status checks." 
+            usage="Real-time KPI summaries, Minimalist mobile dashboard cards."
+          >
+            <RevenueSparklineGrid />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Slope Point-to-Point" 
+            description="Identifying directional shifts between exactly two states or dates." 
+            usage="Before/After testing results, Year-over-year categorical growth."
+          >
+            <SlopeMetricCompare />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Step-wise Valuation" 
+            description="Visualizing price or scale shifts that happen in discrete intervals." 
+            usage="Subscription price history, Server scaling events, Inventory restocks."
+          >
+            <StepPriceChangeChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Lollipop Ranking Index" 
+            description="Clean categorical ranking with prioritized weight visualization." 
+            usage="Product popularity leaderboards, Regional sales performance ranking."
+          >
+            <LollipopRankingChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Benchmark Bullet Plot" 
+            description="Comparing performance against targets, baselines, and ranges." 
+            usage="Departmental budget vs actual vs target, Benchmark tracking."
+          >
+            <BulletBaselineChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Dumbbell Delta Index" 
+            description="Visualizing the gap or variance between a Minimum and Maximum point." 
+            usage="Latency ranges, Salary bandwidths, Min/Max seasonal temperatures."
+          >
+            <DumbbellComparisonChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Rose Area Proportion" 
+            description="Sector-based area mapping for proportional categorical comparison." 
+            usage="Cause and effect analysis, Budget mix, Disease statistic tracking."
+          >
+            <NightingaleRoseChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Variable Donut Radius" 
+            description="Emphasizing scale differnces using both angle and sector depth." 
+            usage="Market capitalization sectors, Portofolio risk allocation."
+          >
+            <VariableRadiusPieChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Pareto 80/20 Driver" 
+            description="Combining bars and lines to identify the core 20% drivers of results." 
+            usage="Quality control defects, Top selling products identification."
+          >
+            <Pareto8020Chart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Diverging Sentiment" 
+            description="Polarizing data against a central baseline for profit/loss or agreement." 
+            usage="NPS score breakdowns, Net profit variance, Survey sentiment."
+          >
+            <DivergingBarSentiment />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Fluid Traffic Stream" 
+            description="A flowing representation of volume changes over continuous time." 
+            usage="Active user session streams, Server resource flow, Network traffic."
+          >
+            <StreamVolumeGraph />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Precision Margin Scan" 
+            description="Scatter plots with vertical error bars showing statistical uncertainty." 
+            usage="Clinical trial results, Polling data precision, Quality control margins."
+          >
+            <ErrorBarPrecisionChart />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Profile Radar Scan" 
+            description="Side-by-side comparison of two multi-dimensional entities." 
+            usage="Candidate A vs Candidate B, Product feature set comparison."
+          >
+            <RadarComplexProfile />
+          </ChartCard>
+
+          <ChartCard 
+            variant="premium"
+            title="Bandwidth Range Bar" 
+            description="Categorical bars showing a Low, Mid, and High range per entity." 
+            usage="Salary bands per role, Temperature tolerances, Stock price bandwidth."
+          >
+            <MultiMetricRangeBar />
           </ChartCard>
         </div>
       )}

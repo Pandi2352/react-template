@@ -1,15 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Bell, LogOut, User, Settings, Search, Minimize2, Maximize2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, Bell, User, Settings, Search, Minimize2, Maximize2 } from 'lucide-react';
 import { cn } from '@/utils';
-import { useAuth, useUI } from '@/hooks';
+import { useUI } from '@/hooks';
 import { ROUTES } from '@/constants';
 import { GTranslate } from '@/components/common/GTranslate';
 
 export function Navbar() {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
   const { toggleSidebar, setCommandOpen, isFocusMode, setFocusMode } = useUI();
+  const user = { name: 'Demo User', email: 'demo@example.com', avatar: null };
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -25,11 +24,6 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isDropdownOpen]);
 
-  const handleSignOut = () => {
-    setIsDropdownOpen(false);
-    logout();
-    navigate(ROUTES.HOME);
-  };
 
   const initials = user?.name
     ?.split(' ')
@@ -151,25 +145,16 @@ export function Navbar() {
                   <User className="h-4 w-4" />
                   Profile
                 </Link>
-                <Link
-                  to={ROUTES.SETTINGS}
-                  onClick={() => setIsDropdownOpen(false)}
-                  className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
-                >
-                  <Settings className="h-4 w-4" />
-                  Settings
-                </Link>
-                <div className="border-t border-gray-100">
-                  <button
-                    onClick={handleSignOut}
-                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 transition-colors hover:bg-red-50"
+                  <Link
+                    to={ROUTES.SETTINGS}
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-50"
                   >
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
-                  </button>
+                    <Settings className="h-4 w-4" />
+                    Settings
+                  </Link>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>

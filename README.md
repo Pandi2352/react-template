@@ -32,7 +32,8 @@ Clone it, rename it, start building. Use this as the base for every new SaaS or 
 | 📊 | **DataTable** | Reusable table with 11+ settings, pagination, frozen columns, localStorage persistence |
 | 📅 | **Event Calendar** | Full-page custom calendar view built with `date-fns` |
 | 📋 | **Kanban Board** | Responsive drag-and-drop task board built with `@hello-pangea/dnd` |
-| 📈 | **Charts Suite** | **20** professional data visualizations (Radar, Scatter, Candlestick, Gantt, etc.) |
+| 📈 | **Charts Suite** | **40** purpose-built data visualizations across 3 specialized tiers. |
+| ✨ | **Premium Suite** | **10+** high-fidelity enterprise components (File Uploader, Activity Feed, Onboarding Wizard, RBAC Matrix, Pricing, Stats Grid, Timeline, Audit Log) |
 | 📝 | **Rich Text Editor**| Professional WYSIWYG editor built with **TipTap** and Tailwind Typography |
 | 🔐 | **Auth system** | Context-based auth with token storage, route guards, auto-restore |
 | 💀 | **Skeleton loaders** | 7 presets (card, table, text, profile, form, page) — used as route fallbacks |
@@ -256,7 +257,8 @@ src/
 | `CommandPalette` | 🆕 Global Cmd+K quick actions and navigation menu |
 | `EventCalendar`  | 🆕 Monthly calendar view supporting event dot indicators |
 | `KanbanBoard`    | 🆕 Generic drag-and-drop columns with rich customizable task cards |
-| `ChartsSuite`    | 🆕 **20** specialized charts using **Recharts** and **ApexCharts** |
+| `ChartsSuite`    | 🆕 **40** specialized charts in 3 tiers (**Standard**, **Advanced**, **Premium**) |
+| `PremiumSuite`   | 🆕 **10+** Enterprise-grade interactive components for high-end SaaS |
 | `RichTextEditor` | 🆕 Modern WYSIWYG editor with custom toolbar and HTML output |
 | `ProtectedRoute` | Auth route guard (redirects to `/login`) |
 | `GuestRoute` | Guest-only route guard (redirects to `/dashboard`) |
@@ -662,6 +664,39 @@ The `index.html` is production-ready for "View Page Source":
 - **`useMemo`** — Column definitions and filtered data are memoized
 - **localStorage persistence** — Table settings load instantly on revisit
 - **Pagination** — Only renders rows for the current page
+- **Vercel Optimized** — `vercel.json` included for perfect SPA routing and asset caching
+
+---
+
+## 🌩️ Deployment (Vercel)
+
+This template is pre-configured for **seamless Vercel deployment**.
+
+### Option 1: Vercel Git Integration (Recommended)
+1. Push your code to a GitHub, GitLab, or Bitbucket repository.
+2. Go to the [Vercel Dashboard](https://vercel.com/dashboard) and click **"New Project"**.
+3. Import your repository.
+4. Vercel will auto-detect **Vite** and use the following settings:
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+5. Click **Deploy**.
+
+### Option 2: Vercel CLI
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy (follow prompts)
+vercel
+```
+
+### Why the `vercel.json`?
+We've included a `vercel.json` file that:
+- **Ensures SPA Routing**: Rewrites all routes to `index.html` so `react-router` handles deep links (e.g., `/dashboard`) correctly.
+- **Optimizes Caching**: Sets `immutable` caching for assets in `/assets/` to ensure lightning-fast subsequent loads for your users.
+
+---
 
 ---
 

@@ -1,18 +1,14 @@
 import {
-  Brain,
   CalendarDays,
   ClipboardList,
   Database,
   Filter,
   Kanban,
   LayoutDashboard,
-  Megaphone,
-  Settings,
   Sparkles,
   Rocket,
   Type,
   TrendingUp,
-  Users,
   type LucideIcon,
 } from 'lucide-react';
 import { ROUTES } from '@/constants';
@@ -35,18 +31,6 @@ export interface SidebarItem {
 export const sidebarMenuItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.DASHBOARD },
   {
-    id: 'team-dashboards',
-    label: 'Team Dashboards',
-    icon: Users,
-    to: ROUTES.TEAM_DASHBOARDS,
-  },
-  {
-    id: 'regional-dashboards',
-    label: 'Regional Dashboards',
-    icon: Database,
-    to: ROUTES.REGIONAL_DASHBOARDS,
-  },
-  {
     id: 'lead-management',
     label: 'Lead Management',
     icon: Database,
@@ -65,10 +49,8 @@ export const sidebarMenuItems: SidebarItem[] = [
   { id: 'kanban-board', label: 'Kanban Board', icon: Kanban, to: ROUTES.KANBAN_BOARD },
   { id: 'rich-text-editor', label: 'Rich Text Editor', icon: Type, to: ROUTES.RICH_TEXT_EDITOR },
   { id: 'charts-suite', label: 'Charts Suite', icon: TrendingUp, to: ROUTES.CHARTS },
-  { id: 'campaigns', label: 'Campaigns', icon: Megaphone, to: ROUTES.CAMPAIGNS },
-  { id: 'intelligence', label: 'Intelligence', icon: Brain, to: ROUTES.INTELLIGENCE },
   { id: 'simple-form', label: 'Simple Form', icon: ClipboardList, to: ROUTES.SIMPLE_FORM },
   { id: 'awesome-form', label: 'Awesome Form', icon: Sparkles, to: ROUTES.AWESOME_FORM },
   { id: 'advanced-form', label: 'Advanced Form', icon: Rocket, to: ROUTES.ADVANCED_FORM },
-  { id: 'settings', label: 'Settings', icon: Settings, to: ROUTES.SETTINGS },
+  { id: 'premium-components', label: 'Premium Suite', icon: Sparkles, to: ROUTES.PREMIUM_COMPONENTS },
 ];

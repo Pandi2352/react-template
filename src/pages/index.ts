@@ -14,3 +14,4 @@ export { CalendarTasks } from './CalendarTasks';
 export { KanbanBoardPage } from './KanbanBoardPage';
 export { RichTextPage } from './RichTextPage';
 export { ChartsShowcase } from './ChartsShowcase';
+export { PremiumShowcase } from './PremiumShowcase';
