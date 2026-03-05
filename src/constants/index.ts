@@ -17,6 +17,7 @@ export const ROUTES = {
   LOST: '/sales-funnel/lost',
   CALENDAR_TASKS: '/calendar-tasks',
   KANBAN_BOARD: '/kanban-board',
+  RICH_TEXT_EDITOR: '/rich-text-editor',
   CAMPAIGNS: '/campaigns',
   INTELLIGENCE: '/intelligence',
   SIMPLE_FORM: '/simple-form',

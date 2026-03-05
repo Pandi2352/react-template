@@ -10,6 +10,7 @@ import {
   Settings,
   Sparkles,
   Rocket,
+  Type,
   Users,
   type LucideIcon,
 } from 'lucide-react';
@@ -61,6 +62,7 @@ export const sidebarMenuItems: SidebarItem[] = [
   },
   { id: 'calendar', label: 'Calendar & Tasks', icon: CalendarDays, to: ROUTES.CALENDAR_TASKS },
   { id: 'kanban-board', label: 'Kanban Board', icon: Kanban, to: ROUTES.KANBAN_BOARD },
+  { id: 'rich-text-editor', label: 'Rich Text Editor', icon: Type, to: ROUTES.RICH_TEXT_EDITOR },
   { id: 'campaigns', label: 'Campaigns', icon: Megaphone, to: ROUTES.CAMPAIGNS },
   { id: 'intelligence', label: 'Intelligence', icon: Brain, to: ROUTES.INTELLIGENCE },
   { id: 'simple-form', label: 'Simple Form', icon: ClipboardList, to: ROUTES.SIMPLE_FORM },

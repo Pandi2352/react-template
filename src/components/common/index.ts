@@ -17,6 +17,7 @@ export { ErrorBoundary } from './ErrorBoundary';
 export { CommandPalette } from './CommandPalette';
 export { EventCalendar, type CalendarEvent } from './EventCalendar';
 export { KanbanBoard, type Task, type ColumnData, type KanbanData } from './KanbanBoard';
+export { RichTextEditor } from './RichTextEditor';
 export {
   Skeleton,
   CardSkeleton,
