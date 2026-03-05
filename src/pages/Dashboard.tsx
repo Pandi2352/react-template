@@ -1,4 +1,3 @@
-import { useAuth } from '@/hooks';
 import { LayoutDashboard, Users, FileText, TrendingUp } from 'lucide-react';
 
 const stats = [
@@ -9,7 +8,7 @@ const stats = [
 ];
 
 export function Dashboard() {
-  const { user } = useAuth();
+  const user = { name: 'Demo User' };
 
   return (
     <div>

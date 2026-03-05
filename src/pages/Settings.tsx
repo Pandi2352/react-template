@@ -1,8 +1,7 @@
-import { useAuth } from '@/hooks';
 import { Settings as SettingsIcon } from 'lucide-react';
 
 export function Settings() {
-  const { user } = useAuth();
+  const user = { name: 'Demo User', email: 'demo@example.com' };
 
   return (
     <div>
