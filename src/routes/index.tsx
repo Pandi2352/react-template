@@ -19,6 +19,7 @@ const AdvancedForm = lazy(() => import('@/pages/AdvancedForm').then((m) => ({ de
 const CalendarTasks = lazy(() => import('@/pages/CalendarTasks').then((m) => ({ default: m.CalendarTasks })));
 const KanbanBoardPage = lazy(() => import('@/pages/KanbanBoardPage').then((m) => ({ default: m.KanbanBoardPage })));
 const RichTextPage = lazy(() => import('@/pages/RichTextPage').then((m) => ({ default: m.RichTextPage })));
+const ChartsShowcase = lazy(() => import('@/pages/ChartsShowcase').then((m) => ({ default: m.ChartsShowcase })));
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
 
@@ -117,6 +118,10 @@ export const router = createBrowserRouter([
           {
             path: ROUTES.RICH_TEXT_EDITOR,
             element: <Lazy fallback={<PageSkeleton />}><RichTextPage /></Lazy>,
+          },
+          {
+            path: ROUTES.CHARTS,
+            element: <Lazy fallback={<PageSkeleton />}><ChartsShowcase /></Lazy>,
           },
           {
             path: ROUTES.CAMPAIGNS,

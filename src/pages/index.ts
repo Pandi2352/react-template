@@ -13,3 +13,4 @@ export { AdvancedForm } from './AdvancedForm';
 export { CalendarTasks } from './CalendarTasks';
 export { KanbanBoardPage } from './KanbanBoardPage';
 export { RichTextPage } from './RichTextPage';
+export { ChartsShowcase } from './ChartsShowcase';

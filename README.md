@@ -32,6 +32,7 @@ Clone it, rename it, start building. Use this as the base for every new SaaS or 
 | 📊 | **DataTable** | Reusable table with 11+ settings, pagination, frozen columns, localStorage persistence |
 | 📅 | **Event Calendar** | Full-page custom calendar view built with `date-fns` |
 | 📋 | **Kanban Board** | Responsive drag-and-drop task board built with `@hello-pangea/dnd` |
+| 📈 | **Charts Suite** | 10 purpose-built data visualizations (Radar, Scatter, Composed, etc.) |
 | 📝 | **Rich Text Editor**| Professional WYSIWYG editor built with **TipTap** and Tailwind Typography |
 | 🔐 | **Auth system** | Context-based auth with token storage, route guards, auto-restore |
 | 💀 | **Skeleton loaders** | 7 presets (card, table, text, profile, form, page) — used as route fallbacks |
@@ -255,6 +256,7 @@ src/
 | `CommandPalette` | 🆕 Global Cmd+K quick actions and navigation menu |
 | `EventCalendar`  | 🆕 Monthly calendar view supporting event dot indicators |
 | `KanbanBoard`    | 🆕 Generic drag-and-drop columns with rich customizable task cards |
+| `ChartsSuite`    | 🆕 10 different specialized charts (Line, Area, Radar, Scatter, etc.) |
 | `RichTextEditor` | 🆕 Modern WYSIWYG editor with custom toolbar and HTML output |
 | `ProtectedRoute` | Auth route guard (redirects to `/login`) |
 | `GuestRoute` | Guest-only route guard (redirects to `/dashboard`) |
@@ -675,6 +677,7 @@ The `index.html` is production-ready for "View Page Source":
 | `/sales-funnel/all-deals` | All Deals | Authenticated | Protected |
 | `/calendar-tasks` | Calendar & Tasks | Authenticated | Protected |
 | `/kanban-board` | Kanban Board | Authenticated | Protected |
+| `/charts-suite` | Enterprise Charts | Authenticated | Protected |
 | `/rich-text-editor` | Rich Text Editor | Authenticated | Protected |
 | `/simple-form` | Simple Form | Authenticated | Protected |
 | `/awesome-form` | Awesome Form | Authenticated | Protected |
