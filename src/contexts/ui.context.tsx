@@ -12,6 +12,8 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(loadSidebarCollapsed);
+  const [isCommandOpen, setCommandOpen] = useState(false);
+  const [isFocusMode, setFocusMode] = useState(false);
 
   const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
     const id = String(++toastId);
@@ -55,6 +57,10 @@ export function UIProvider({ children }: { children: ReactNode }) {
         closeSidebar,
         isSidebarCollapsed,
         toggleSidebarCollapsed,
+        isCommandOpen,
+        setCommandOpen,
+        isFocusMode,
+        setFocusMode,
       }}
     >
       {children}

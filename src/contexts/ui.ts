@@ -16,6 +16,10 @@ export interface UIContextValue {
   closeSidebar: () => void;
   isSidebarCollapsed: boolean;
   toggleSidebarCollapsed: () => void;
+  isCommandOpen: boolean;
+  setCommandOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isFocusMode: boolean;
+  setFocusMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const UIContext = createContext<UIContextValue | null>(null);

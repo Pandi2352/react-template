@@ -14,6 +14,7 @@ export { DataTable, type DataTableColumn, type TableSettings } from './DataTable
 export { Dropdown, type DropdownOption } from './Dropdown';
 export { Pagination } from './Pagination';
 export { ErrorBoundary } from './ErrorBoundary';
+export { CommandPalette } from './CommandPalette';
 export {
   Skeleton,
   CardSkeleton,

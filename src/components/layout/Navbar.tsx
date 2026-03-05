@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Bell, LogOut, User, Settings } from 'lucide-react';
+import { Menu, Bell, LogOut, User, Settings, Search, Minimize2, Maximize2 } from 'lucide-react';
 import { cn } from '@/utils';
 import { useAuth, useUI } from '@/hooks';
 import { ROUTES } from '@/constants';
@@ -9,7 +9,7 @@ import { GTranslate } from '@/components/common/GTranslate';
 export function Navbar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const { toggleSidebar } = useUI();
+  const { toggleSidebar, setCommandOpen, isFocusMode, setFocusMode } = useUI();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -50,23 +50,66 @@ export function Navbar() {
           >
             <Menu className="h-5 w-5" />
           </button>
+
+          {/* Focus Mode Title (Only visible in Focus Mode) */}
+          {isFocusMode && (
+            <div className="hidden lg:flex items-center text-sm font-semibold text-gray-500 uppercase tracking-wider">
+              Focus Mode
+            </div>
+          )}
+
+          {/* Command Palette Trigger (Hidden in focus mode) */}
+          {!isFocusMode && (
+            <button
+              onClick={() => setCommandOpen(true)}
+              className="hidden items-center gap-2 rounded-md border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-700 sm:flex w-64 justify-between focus:outline-none focus:ring-2 focus:ring-primary/20"
+            >
+              <div className="flex items-center gap-2">
+                <Search className="h-4 w-4" />
+                <span>Search...</span>
+              </div>
+              <kbd className="hidden rounded border border-gray-300 bg-white px-1.5 font-sans text-[10px] font-medium text-gray-400 sm:inline-block shadow-sm">
+                ⌘ K
+              </kbd>
+            </button>
+          )}
         </div>
 
-        {/* Right: translate + notifications + user */}
+        {/* Right: Actions */}
         <div className="flex items-center gap-3">
-          {/* Language switcher — before bell */}
-          <GTranslate className="flex items-center" />
-
-          {/* Notification bell placeholder */}
+          
+          {/* Focus Mode Toggle */}
           <button
-            className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100"
-            aria-label="Notifications"
+            onClick={() => setFocusMode(!isFocusMode)}
+            className={cn(
+              "hidden lg:flex items-center justify-center rounded-lg p-2 transition-colors",
+              isFocusMode 
+                ? "bg-primary/10 text-primary hover:bg-primary/20" 
+                : "text-gray-600 hover:bg-gray-100"
+            )}
+            aria-label="Toggle Focus Mode"
+            title={isFocusMode ? "Exit Focus Mode" : "Enter Focus Mode"}
           >
-            <Bell className="h-5 w-5" />
+            {isFocusMode ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
           </button>
 
-          {/* Divider */}
-          <div className="h-6 w-px bg-gray-200" />
+          {!isFocusMode && (
+            <>
+              {/* Language switcher — before bell */}
+              <GTranslate className="flex items-center" />
+
+              {/* Notification bell placeholder */}
+              <button
+                className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100"
+                aria-label="Notifications"
+              >
+                <Bell className="h-5 w-5" />
+              </button>
+
+              {/* Divider */}
+              <div className="h-6 w-px bg-gray-200" />
+            </>
+          )}
 
           {/* User dropdown */}
           <div ref={dropdownRef} className="relative">

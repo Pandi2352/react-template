@@ -36,6 +36,8 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | 🌐 | **GTranslate** | Google Translate widget with host-aware language config |
 | 🍞 | **Toast system** | Success, error, warning, info notifications |
 | 📱 | **Responsive** | Mobile drawer sidebar, collapsible desktop sidebar |
+| ⌨️ | **Command Palette** | Global Cmd+K menu to navigate, search, and run actions instantly |
+| 🧘 | **Focus Mode** | Zen-like toggle to hide sidebar and navbar for distraction-free data entry and table viewing |
 | 🔎 | **SEO-ready HTML** | Meta tags, Open Graph, Twitter Card, `<noscript>`, inline loader |
 
 ---
@@ -51,6 +53,7 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | **Routing** | [React Router DOM](https://reactrouter.com/) | 7.13 |
 | **HTTP Client** | [Axios](https://axios-http.com/) | 1.13 |
 | **Icons** | [Lucide React](https://lucide.dev/) | 0.563 |
+| **Cmd+K Menu**| [cmdk](https://cmdk.paco.me/) | 1.0 |
 | **Charts** | [Recharts](https://recharts.org/) | 3.7 |
 | **Linting** | [ESLint](https://eslint.org/) (flat config) | 9.39 |
 
@@ -123,6 +126,7 @@ src/
 │   │   ├── ExportMenu.tsx       # 🆕 CSV/Excel export dropdown
 │   │   ├── Pagination.tsx       # 🆕 Page navigation with ellipsis
 │   │   ├── ErrorBoundary.tsx    # 🆕 Global crash handler
+│   │   ├── CommandPalette.tsx   # 🆕 Global Cmd+K quick actions menu
 │   │   └── Skeleton.tsx         # 🆕 Skeleton loaders (7 presets)
 │   └── layout/
 │       ├── Header.tsx
@@ -239,6 +243,7 @@ src/
 | `Tooltip` | Hover tooltip with arrow, 4-side positioning |
 | `SplashScreen` | Animated loading screen on first visit |
 | `GTranslate` | Google Translate widget with host-aware config |
+| `CommandPalette` | 🆕 Global Cmd+K quick actions and navigation menu |
 | `ProtectedRoute` | Auth route guard (redirects to `/login`) |
 | `GuestRoute` | Guest-only route guard (redirects to `/dashboard`) |
 

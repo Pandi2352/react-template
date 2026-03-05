@@ -14,7 +14,7 @@ import { sidebarMenuItems, type SidebarItem } from '@/config/sidebar-menu';
 
 export function Sidebar() {
   const location = useLocation();
-  const { isSidebarOpen, closeSidebar, isSidebarCollapsed, toggleSidebarCollapsed } = useUI();
+  const { isSidebarOpen, closeSidebar, isSidebarCollapsed, toggleSidebarCollapsed, isFocusMode } = useUI();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(
       sidebarMenuItems
@@ -278,6 +278,7 @@ export function Sidebar() {
       <aside
         className={cn(
           'fixed inset-y-0 left-0 z-40 hidden border-r border-slate-200 bg-[#f8f9fc] transition-all duration-300 lg:block',
+          isFocusMode ? '-translate-x-full' : 'translate-x-0',
           isSidebarCollapsed ? 'w-16' : 'w-64',
         )}
       >
