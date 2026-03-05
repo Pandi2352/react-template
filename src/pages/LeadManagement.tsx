@@ -1,190 +1,22 @@
-import { useMemo, useState } from "react";
-import { Eye, Filter, Pencil, RefreshCw, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Eye, Filter, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { cn } from "@/utils";
 import {
+  Button,
   ExportMenu,
+  Modal,
   SearchInput,
   DataTable,
   Dropdown,
+  Input,
   type DataTableColumn,
   type DropdownOption,
 } from "@/components/common";
 import { useUI } from "@/hooks";
+import { leadsService } from "@/services";
+import type { Lead, LeadSource, LeadStatus } from "@/services";
 
-type LeadSource = "Website" | "Referral" | "LinkedIn" | "Cold Call" | "Event";
-type LeadStatus = "New" | "Contacted" | "Qualified" | "Unqualified";
-
-interface LeadRow {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  designation: string;
-  source: LeadSource;
-  status: LeadStatus;
-  score: number;
-  assignedTo: string;
-  createdDate: string;
-  lastActivity: string;
-}
-
-const leads: LeadRow[] = [
-  {
-    id: 1,
-    name: "Arjun Mehta",
-    email: "arjun.mehta@techcorp.in",
-    phone: "9876543210",
-    company: "TechCorp India",
-    designation: "CTO",
-    source: "LinkedIn",
-    status: "Qualified",
-    score: 85,
-    assignedTo: "Sethupathy",
-    createdDate: "19 Feb 2026",
-    lastActivity: "Today",
-  },
-  {
-    id: 2,
-    name: "Priya Sharma",
-    email: "priya.sharma@innovate.io",
-    phone: "9123456780",
-    company: "Innovate Solutions",
-    designation: "VP Engineering",
-    source: "Website",
-    status: "Contacted",
-    score: 62,
-    assignedTo: "Kumaran",
-    createdDate: "18 Feb 2026",
-    lastActivity: "1d ago",
-  },
-  {
-    id: 3,
-    name: "Rahul Verma",
-    email: "rahul.v@globalsoft.com",
-    phone: "9988776655",
-    company: "GlobalSoft",
-    designation: "Product Manager",
-    source: "Referral",
-    status: "New",
-    score: 40,
-    assignedTo: "-",
-    createdDate: "18 Feb 2026",
-    lastActivity: "-",
-  },
-  {
-    id: 4,
-    name: "Sneha Iyer",
-    email: "sneha.iyer@cloudnine.in",
-    phone: "8877665544",
-    company: "CloudNine Tech",
-    designation: "Head of IT",
-    source: "Event",
-    status: "Qualified",
-    score: 78,
-    assignedTo: "Sethupathy",
-    createdDate: "17 Feb 2026",
-    lastActivity: "2d ago",
-  },
-  {
-    id: 5,
-    name: "Vikram Reddy",
-    email: "vikram.r@nexgen.co",
-    phone: "7766554433",
-    company: "NexGen Systems",
-    designation: "Director",
-    source: "Cold Call",
-    status: "Contacted",
-    score: 55,
-    assignedTo: "Lakshmi",
-    createdDate: "16 Feb 2026",
-    lastActivity: "3d ago",
-  },
-  {
-    id: 6,
-    name: "Deepa Nair",
-    email: "deepa.nair@sparkle.io",
-    phone: "9654321870",
-    company: "Sparkle Digital",
-    designation: "CEO",
-    source: "LinkedIn",
-    status: "New",
-    score: 30,
-    assignedTo: "-",
-    createdDate: "15 Feb 2026",
-    lastActivity: "-",
-  },
-  {
-    id: 7,
-    name: "Karthik Rajan",
-    email: "karthik.r@byteworks.in",
-    phone: "9012345678",
-    company: "ByteWorks",
-    designation: "Engineering Lead",
-    source: "Website",
-    status: "Unqualified",
-    score: 15,
-    assignedTo: "Kumaran",
-    createdDate: "14 Feb 2026",
-    lastActivity: "5d ago",
-  },
-  {
-    id: 8,
-    name: "Ananya Das",
-    email: "ananya.d@pinnacle.com",
-    phone: "8901234567",
-    company: "Pinnacle Corp",
-    designation: "VP Sales",
-    source: "Referral",
-    status: "Qualified",
-    score: 90,
-    assignedTo: "Sethupathy",
-    createdDate: "13 Feb 2026",
-    lastActivity: "Today",
-  },
-  {
-    id: 9,
-    name: "Ananya Das",
-    email: "ananya.d@pinnacle.com",
-    phone: "8901234567",
-    company: "Pinnacle Corp",
-    designation: "VP Sales",
-    source: "Referral",
-    status: "Qualified",
-    score: 90,
-    assignedTo: "Sethupathy",
-    createdDate: "13 Feb 2026",
-    lastActivity: "Today",
-  },
-  {
-    id: 10,
-    name: "Ananya Das",
-    email: "ananya.d@pinnacle.com",
-    phone: "8901234567",
-    company: "Pinnacle Corp",
-    designation: "VP Sales",
-    source: "Referral",
-    status: "Qualified",
-    score: 90,
-    assignedTo: "Sethupathy",
-    createdDate: "13 Feb 2026",
-    lastActivity: "Today",
-  },
-  {
-    id: 11,
-    name: "Ananya Das",
-    email: "ananya.d@pinnacle.com",
-    phone: "8901234567",
-    company: "Pinnacle Corp",
-    designation: "VP Sales",
-    source: "Referral",
-    status: "Qualified",
-    score: 90,
-    assignedTo: "Sethupathy",
-    createdDate: "13 Feb 2026",
-    lastActivity: "Today",
-  },
-];
+/* ── Styles ── */
 
 const statusStyles: Record<LeadStatus, string> = {
   New: "bg-sky-100 text-sky-800 border border-sky-200",
@@ -200,6 +32,8 @@ const sourceStyles: Record<LeadSource, string> = {
   "Cold Call": "bg-orange-50 text-orange-700 border-orange-200",
   Event: "bg-pink-50 text-pink-700 border-pink-200",
 };
+
+/* ── Filter Options ── */
 
 const statusOptions: DropdownOption<"All" | LeadStatus>[] = [
   { value: "All", label: "All Status" },
@@ -218,48 +52,130 @@ const sourceOptions: DropdownOption<"All" | LeadSource>[] = [
   { value: "Event", label: "Event" },
 ];
 
+const sourceFormOptions: DropdownOption<LeadSource>[] = [
+  { value: "Website", label: "Website" },
+  { value: "Referral", label: "Referral" },
+  { value: "LinkedIn", label: "LinkedIn" },
+  { value: "Cold Call", label: "Cold Call" },
+  { value: "Event", label: "Event" },
+];
+
 function scoreColor(score: number) {
   if (score >= 75) return "text-emerald-600";
   if (score >= 50) return "text-amber-600";
   return "text-rose-600";
 }
 
+/* ── Empty form ── */
+const emptyForm = { name: "", email: "", phone: "", company: "", designation: "", source: "Website" as LeadSource };
+
+/* ── Component ── */
+
 export function LeadManagement() {
-  const { isSidebarCollapsed } = useUI();
+  const { isSidebarCollapsed, addToast } = useUI();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<"All" | LeadStatus>("All");
   const [source, setSource] = useState<"All" | LeadSource>("All");
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredLeads = useMemo(() => {
-    return leads.filter((lead) => {
-      const q = search.toLowerCase();
-      const matchesSearch =
-        lead.name.toLowerCase().includes(q) ||
-        lead.email.toLowerCase().includes(q) ||
-        lead.company.toLowerCase().includes(q);
-      const matchesStatus = status === "All" || lead.status === status;
-      const matchesSource = source === "All" || lead.source === source;
-      return matchesSearch && matchesStatus && matchesSource;
+  // Modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingLead, setEditingLead] = useState<Lead | null>(null);
+  const [form, setForm] = useState(emptyForm);
+  const [isSaving, setIsSaving] = useState(false);
+
+  /* ── Fetch leads from API ── */
+  const fetchLeads = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await leadsService.getAll({
+        search: search || undefined,
+        status: status !== "All" ? status : undefined,
+        source: source !== "All" ? source : undefined,
+      });
+      const paginated = res.data.data;
+      setLeads(paginated.data);
+      setTotalCount(paginated.total);
+    } catch {
+      addToast({ type: "error", message: "Failed to load leads" });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [search, status, source, addToast]);
+
+  useEffect(() => { fetchLeads(); }, [fetchLeads]);
+
+  /* ── Create / Update ── */
+  function openCreate() {
+    setEditingLead(null);
+    setForm(emptyForm);
+    setModalOpen(true);
+  }
+
+  function openEdit(lead: Lead) {
+    setEditingLead(lead);
+    setForm({
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone,
+      company: lead.company,
+      designation: lead.designation,
+      source: lead.source,
     });
-  }, [search, status, source]);
+    setModalOpen(true);
+  }
 
+  async function handleSave() {
+    if (!form.name.trim() || !form.email.trim()) {
+      addToast({ type: "error", message: "Name and email are required" });
+      return;
+    }
+    setIsSaving(true);
+    try {
+      if (editingLead) {
+        await leadsService.update(editingLead.id, form);
+        addToast({ type: "success", message: "Lead updated" });
+      } else {
+        await leadsService.create(form);
+        addToast({ type: "success", message: "Lead created" });
+      }
+      setModalOpen(false);
+      fetchLeads();
+    } catch {
+      addToast({ type: "error", message: "Failed to save lead" });
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  /* ── Delete ── */
+  async function handleDelete(id: number) {
+    try {
+      await leadsService.delete(id);
+      addToast({ type: "success", message: "Lead deleted" });
+      fetchLeads();
+    } catch {
+      addToast({ type: "error", message: "Failed to delete lead" });
+    }
+  }
+
+  /* ── Summary ── */
   const summary = useMemo(
     () => ({
-      total: leads.length,
+      total: totalCount,
       new: leads.filter((l) => l.status === "New").length,
       contacted: leads.filter((l) => l.status === "Contacted").length,
       qualified: leads.filter((l) => l.status === "Qualified").length,
     }),
-    [],
+    [leads, totalCount],
   );
 
-  const columns: DataTableColumn<LeadRow>[] = useMemo(
+  /* ── Columns ── */
+  const columns: DataTableColumn<Lead>[] = useMemo(
     () => [
-      {
-        header: "S.No",
-        accessor: "id",
-        className: "text-slate-500",
-      },
+      { header: "S.No", accessor: "id", className: "text-slate-500" },
       {
         header: "Name",
         render: (lead) => (
@@ -270,11 +186,7 @@ export function LeadManagement() {
         ),
         className: "!whitespace-normal",
       },
-      {
-        header: "Company",
-        accessor: "company",
-        className: "font-medium text-slate-900",
-      },
+      { header: "Company", accessor: "company", className: "font-medium text-slate-900" },
       {
         header: "Contact",
         render: (lead) => (
@@ -288,12 +200,7 @@ export function LeadManagement() {
       {
         header: "Source",
         render: (lead) => (
-          <span
-            className={cn(
-              "inline-flex rounded-full border px-2 py-0.5 text-xs font-medium",
-              sourceStyles[lead.source],
-            )}
-          >
+          <span className={cn("inline-flex rounded-full border px-2 py-0.5 text-xs font-medium", sourceStyles[lead.source])}>
             {lead.source}
           </span>
         ),
@@ -301,12 +208,7 @@ export function LeadManagement() {
       {
         header: "Status",
         render: (lead) => (
-          <span
-            className={cn(
-              "inline-flex rounded-full px-2 py-0.5 text-xs font-medium",
-              statusStyles[lead.status],
-            )}
-          >
+          <span className={cn("inline-flex rounded-full px-2 py-0.5 text-xs font-medium", statusStyles[lead.status])}>
             {lead.status}
           </span>
         ),
@@ -314,52 +216,22 @@ export function LeadManagement() {
       {
         header: "Score",
         render: (lead) => (
-          <span className={cn("font-medium", scoreColor(lead.score))}>
-            {lead.score}/100
-          </span>
+          <span className={cn("font-medium", scoreColor(lead.score))}>{lead.score}/100</span>
         ),
       },
-      {
-        header: "Assigned",
-        accessor: "assignedTo",
-        className: "text-slate-700",
-      },
-      {
-        header: "Created",
-        accessor: "createdDate",
-        className: "text-slate-700",
-      },
-      {
-        header: "Last Activity",
-        accessor: "lastActivity",
-        className: "text-slate-500",
-        headerClassName: "hidden xl:table-cell",
-        // hidden on smaller screens, className needs it too
-      },
+      { header: "Assigned", accessor: "assignedTo", className: "text-slate-700" },
+      { header: "Created", accessor: "createdDate", className: "text-slate-700" },
       {
         header: "Actions",
         align: "left" as const,
-        render: () => (
-          <div className="inline-flex items-left gap-1">
-            <button
-              type="button"
-              className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-blue-50 hover:text-blue-600"
-              title="View"
-            >
-              <Eye className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-amber-50 hover:text-amber-600"
-              title="Edit"
-            >
+        render: (lead) => (
+          <div className="inline-flex items-center gap-1">
+            <button type="button" onClick={() => openEdit(lead)}
+              className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-amber-50 hover:text-amber-600" title="Edit">
               <Pencil className="h-4 w-4" />
             </button>
-            <button
-              type="button"
-              className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
-              title="Delete"
-            >
+            <button type="button" onClick={() => handleDelete(lead.id)}
+              className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600" title="Delete">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -373,90 +245,88 @@ export function LeadManagement() {
     <section className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-            Lead Management
-          </h1>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Lead Management</h1>
           <div className="flex items-center gap-3 text-sm text-slate-600">
             <span>{summary.total} leads</span>
-            <span className="inline-flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-sky-500" />
-              {summary.new}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-amber-500" />
-              {summary.contacted}
-            </span>
-            <span className="inline-flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              {summary.qualified}
-            </span>
+            <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-sky-500" />{summary.new}</span>
+            <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-amber-500" />{summary.contacted}</span>
+            <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-emerald-500" />{summary.qualified}</span>
           </div>
         </div>
-
-        <ExportMenu data={filteredLeads} filename="leads" />
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={openCreate}>
+            <Plus className="mr-1.5 h-4 w-4" /> Add Lead
+          </Button>
+          <ExportMenu data={leads} filename="leads" />
+        </div>
       </div>
 
       <div className="border border-slate-200 bg-white p-3">
-        <div
-          className={cn(
-            "mb-3 grid gap-2",
-            isSidebarCollapsed
-              ? "grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto]"
-              : "grid-cols-1 xl:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto_auto]",
-          )}
-        >
-          <SearchInput
-            value={search}
-            onChange={setSearch}
-            placeholder="Search leads..."
-          />
-
-          <Dropdown
-            options={statusOptions}
-            value={status}
-            onChange={setStatus}
-            className="min-w-[152px]"
-          />
-
-          <Dropdown
-            options={sourceOptions}
-            value={source}
-            onChange={setSource}
-            className="min-w-[152px]"
-          />
-
-          <button
-            type="button"
-            onClick={() => {
-              setSearch("");
-              setStatus("All");
-              setSource("All");
-            }}
+        <div className={cn(
+          "mb-3 grid gap-2",
+          isSidebarCollapsed
+            ? "grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto]"
+            : "grid-cols-1 xl:grid-cols-[minmax(0,1fr)_auto_auto_auto]",
+        )}>
+          <SearchInput value={search} onChange={setSearch} placeholder="Search leads..." />
+          <Dropdown options={statusOptions} value={status} onChange={setStatus} className="min-w-[152px]" />
+          <Dropdown options={sourceOptions} value={source} onChange={setSource} className="min-w-[152px]" />
+          <button type="button" onClick={() => { setSearch(""); setStatus("All"); setSource("All"); }}
             className="inline-flex h-10 items-center justify-center rounded-lg border border-slate-300 px-3 text-slate-600 transition-colors hover:bg-slate-50"
-            aria-label="Reset filters"
-          >
+            aria-label="Reset filters">
             <RefreshCw className="h-4 w-4" />
-          </button>
-
-          <button
-            type="button"
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-300 px-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-          >
-            <Filter className="h-4 w-4" />
-            Filters
           </button>
         </div>
 
-        <DataTable<LeadRow>
-          data={filteredLeads}
+        <DataTable<Lead>
+          data={leads}
           columns={columns}
           keyExtractor={(row) => row.id}
           storageKey="lead_table_settings"
-          totalCount={leads.length}
-          emptyMessage="No leads found for current filters."
+          totalCount={totalCount}
+          emptyMessage={isLoading ? "Loading leads..." : "No leads found for current filters."}
           minWidth={isSidebarCollapsed ? "min-w-[1020px]" : "min-w-[1160px]"}
         />
       </div>
+
+      {/* ── Create/Edit Modal ── */}
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title={editingLead ? "Edit Lead" : "Create Lead"}
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleSave} isLoading={isSaving}>
+              {editingLead ? "Update" : "Create"}
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Input id="lead-name" label="Name" placeholder="Full name" required
+              value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+            <Input id="lead-email" label="Email" type="email" placeholder="email@example.com" required
+              value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Input id="lead-phone" label="Phone" placeholder="9876543210"
+              value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
+            <Input id="lead-company" label="Company" placeholder="Company name"
+              value={form.company} onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))} />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Input id="lead-designation" label="Designation" placeholder="Job title"
+              value={form.designation} onChange={(e) => setForm((f) => ({ ...f, designation: e.target.value }))} />
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">Source</label>
+              <Dropdown options={sourceFormOptions} value={form.source}
+                onChange={(v) => setForm((f) => ({ ...f, source: v as LeadSource }))} />
+            </div>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 }

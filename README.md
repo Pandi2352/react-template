@@ -30,6 +30,7 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | 💀 | **Skeleton loaders** | 7 presets (card, table, text, profile, form, page) — used as route fallbacks |
 | 🎨 | **Component library** | 16+ production-ready UI components |
 | 📝 | **Form showcase** | 3 forms: Simple, Awesome (multi-step), Advanced (7-step, every field type) |
+| 🧪 | **Mock API (MSW)** | Full CRUD mock for leads — no backend needed in dev |
 | 📤 | **Export** | CSV & Excel export from any table with zero config |
 | 🔍 | **Search & Filter** | Reusable SearchInput, custom Dropdown (no native `<select>`) |
 | 🌐 | **GTranslate** | Google Translate widget with host-aware language config |
@@ -87,6 +88,7 @@ npm run dev
 |----------|-------------|---------|
 | `VITE_API_BASE_URL` | Backend API base URL | `http://localhost:8000/api` |
 | `VITE_APP_NAME` | App display name (shown in header, sidebar, pages) | `My App` |
+| `VITE_ENABLE_MOCKS` | Enable MSW mock API in dev (`true`/`false`) | `true` |
 
 ---
 
@@ -195,8 +197,16 @@ src/
 ├── routes/
 │   └── index.tsx          # 🆕 Lazy-loaded routes with Suspense
 │
+├── mocks/                # 🆕 MSW mock API (dev only)
+│   ├── browser.ts        #   Service worker setup
+│   ├── db.ts             #   In-memory mock database
+│   └── handlers/
+│       ├── index.ts      #   Handler registry
+│       └── leads.ts      #   CRUD handlers for /leads
+│
 ├── services/
-│   └── auth.service.ts    # Auth API calls
+│   ├── auth.service.ts    # Auth API calls
+│   └── leads.service.ts   # 🆕 Leads CRUD API calls
 │
 ├── types/
 │   └── index.ts           # User, NavItem, NavGroup, ApiResponse, AuthTokens
@@ -723,6 +733,157 @@ const { user, isAuthenticated, login, logout } = useAuth();
 ```
 
 > The Login and Register pages currently use a **demo login** (no backend required). Replace the TODO comments with your actual API calls when ready.
+
+---
+
+## 🧪 Mock API with MSW
+
+The project uses [MSW (Mock Service Worker)](https://mswjs.io/) to intercept API requests and return mock data in development. **No backend server required** — the entire Leads CRUD works out of the box.
+
+### How It Works
+
+```
+Browser                      MSW Service Worker                Mock Handlers
+──────                      ────────────────────              ──────────────
+   │                              │                               │
+   │  fetch("/api/leads")         │                               │
+   │ ───────────────────────────► │                               │
+   │                              │  matches GET /leads handler   │
+   │                              │ ─────────────────────────────►│
+   │                              │                               │
+   │                              │  returns mock JSON            │
+   │                              │ ◄─────────────────────────────│
+   │  receives response           │                               │
+   │ ◄─────────────────────────── │                               │
+```
+
+1. `main.tsx` starts the MSW service worker **before** rendering the app
+2. The service worker intercepts all `fetch`/`XHR` requests
+3. If a request URL matches a handler (e.g. `GET /leads`), MSW returns mock data
+4. If no handler matches, the request passes through to the network normally
+
+### File Structure
+
+```
+src/mocks/
+├── browser.ts              # Creates the MSW service worker
+├── db.ts                   # In-memory database (arrays you can mutate)
+└── handlers/
+    ├── index.ts            # Combines all handler arrays
+    └── leads.ts            # CRUD handlers for /api/leads
+```
+
+| File | Purpose |
+|------|---------|
+| `db.ts` | Fake database — just exported arrays. Handlers read/write from here. Data resets on page reload. |
+| `handlers/leads.ts` | Defines what each endpoint returns. Each handler is a function: match a URL → return a response. |
+| `browser.ts` | One-liner that creates the worker from your handlers. |
+
+### Available Mock Endpoints
+
+| Method | URL | What it does |
+|--------|-----|-------------|
+| `GET` | `/api/leads` | List leads with `?search=`, `?status=`, `?source=`, `?page=`, `?limit=` |
+| `GET` | `/api/leads/:id` | Get a single lead by ID |
+| `POST` | `/api/leads` | Create a new lead (body: `{ name, email, ... }`) |
+| `PUT` | `/api/leads/:id` | Update a lead |
+| `DELETE` | `/api/leads/:id` | Delete a lead |
+
+### How to Add Your Own Mock Endpoint
+
+**Step 1: Add data to `db.ts`**
+
+```ts
+// src/mocks/db.ts
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
+export const products: Product[] = [
+  { id: 1, name: 'Widget', price: 29.99 },
+  { id: 2, name: 'Gadget', price: 49.99 },
+];
+```
+
+**Step 2: Create a handler file**
+
+```ts
+// src/mocks/handlers/products.ts
+import { http, HttpResponse, delay } from 'msw';
+import { products } from '../db';
+
+export const productHandlers = [
+  // GET /api/products — list all
+  http.get('*/api/products', async () => {
+    await delay(300);  // simulate network latency
+    return HttpResponse.json({ success: true, data: products });
+  }),
+
+  // POST /api/products — create
+  http.post('*/api/products', async ({ request }) => {
+    await delay(300);
+    const body = await request.json();
+    const newProduct = { id: products.length + 1, ...body };
+    products.push(newProduct);
+    return HttpResponse.json({ success: true, data: newProduct }, { status: 201 });
+  }),
+];
+```
+
+**Step 3: Register in `handlers/index.ts`**
+
+```ts
+import { leadsHandlers } from './leads';
+import { productHandlers } from './products';
+
+export const handlers = [
+  ...leadsHandlers,
+  ...productHandlers,  // add your new handlers here
+];
+```
+
+**Step 4: Create a service to call it**
+
+```ts
+// src/services/products.service.ts
+import { apiClient } from '@/api';
+
+export const productsService = {
+  getAll: () => apiClient.get('/products'),
+  create: (data) => apiClient.post('/products', data),
+};
+```
+
+That's it! Your component calls `productsService.getAll()` — MSW intercepts it and returns mock data.
+
+### Key Concepts for Beginners
+
+| Concept | Explanation |
+|---------|-------------|
+| **Service Worker** | A script that sits between your app and the network. MSW uses it to intercept requests without changing your app code. |
+| **Handler** | A function that says: "When you see a request to this URL with this method, return this response." |
+| **`delay(ms)`** | Simulates network latency so your loading states actually show up during development. |
+| **`HttpResponse.json()`** | Creates a JSON response. You can set status codes, headers, etc. |
+| **`*/api/...`** | The `*` matches any origin — works with any `VITE_API_BASE_URL` value. |
+| **`onUnhandledRequest: 'bypass'`** | Requests without a matching handler (like static assets) pass through normally. |
+
+### Disabling Mocks
+
+```env
+# .env — set to false to hit a real backend
+VITE_ENABLE_MOCKS=false
+```
+
+Or just don't set the variable — mocks are **enabled by default** in development and **always disabled** in production builds.
+
+### Tips
+
+- **Data resets on refresh** — since everything is in-memory arrays
+- **Check DevTools Network tab** — MSW-handled requests show `(ServiceWorker)` in the Size column
+- **Console logs** — MSW logs intercepted requests to the console (look for `[MSW]` prefix)
+- **Real API later** — when your backend is ready, set `VITE_ENABLE_MOCKS=false` and everything just works because your services already use the correct endpoints
 
 ---
 

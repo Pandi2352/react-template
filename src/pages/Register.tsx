@@ -4,6 +4,7 @@ import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
 import { Button, Input } from '@/components/common';
 import { AnimatedLogo } from '@/components/common/AnimatedLogo';
+import { authService } from '@/services';
 
 export function Register() {
   const navigate = useNavigate();

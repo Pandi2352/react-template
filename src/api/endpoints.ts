@@ -5,5 +5,6 @@
     LOGOUT: '/auth/logout',
     REFRESH: '/auth/refresh',
     ME: '/auth/me',
-  }
+  },
+  LEADS: '/leads',
 } as const;
