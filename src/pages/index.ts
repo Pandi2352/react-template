@@ -10,3 +10,5 @@ export { DummyPage } from './DummyPage';
 export { SimpleForm } from './SimpleForm';
 export { AwesomeForm } from './AwesomeForm';
 export { AdvancedForm } from './AdvancedForm';
+export { CalendarTasks } from './CalendarTasks';
+export { KanbanBoardPage } from './KanbanBoardPage';

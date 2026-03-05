@@ -16,6 +16,7 @@ export const ROUTES = {
   WON: '/sales-funnel/won',
   LOST: '/sales-funnel/lost',
   CALENDAR_TASKS: '/calendar-tasks',
+  KANBAN_BOARD: '/kanban-board',
   CAMPAIGNS: '/campaigns',
   INTELLIGENCE: '/intelligence',
   SIMPLE_FORM: '/simple-form',

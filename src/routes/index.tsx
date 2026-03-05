@@ -16,6 +16,8 @@ const LeadManagement = lazy(() => import('@/pages/LeadManagement').then((m) => (
 const SimpleForm = lazy(() => import('@/pages/SimpleForm').then((m) => ({ default: m.SimpleForm })));
 const AwesomeForm = lazy(() => import('@/pages/AwesomeForm').then((m) => ({ default: m.AwesomeForm })));
 const AdvancedForm = lazy(() => import('@/pages/AdvancedForm').then((m) => ({ default: m.AdvancedForm })));
+const CalendarTasks = lazy(() => import('@/pages/CalendarTasks').then((m) => ({ default: m.CalendarTasks })));
+const KanbanBoardPage = lazy(() => import('@/pages/KanbanBoardPage').then((m) => ({ default: m.KanbanBoardPage })));
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
 
@@ -105,7 +107,11 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTES.CALENDAR_TASKS,
-            element: <DummyPage title="Calendar & Tasks" />,
+            element: <Lazy><CalendarTasks /></Lazy>,
+          },
+          {
+            path: ROUTES.KANBAN_BOARD,
+            element: <Lazy><KanbanBoardPage /></Lazy>,
           },
           {
             path: ROUTES.CAMPAIGNS,

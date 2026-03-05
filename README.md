@@ -1,23 +1,27 @@
 <div align="center">
 
-# ⚡ React Project Template
+# ⚛️ React Enterprise Template 🚀
 
-### A production-ready React starter with auth, routing, data tables, and a rich component library
+### The ultimate production-ready starter featuring Auth, Routing, Data Tables, and a rich UI Component Library.
 
 [![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript_5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite_7-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![React Router](https://img.shields.io/badge/React_Router_7-CA4245?style=for-the-badge&logo=react-router&logoColor=white)](https://reactrouter.com/)
+[![MSW](https://img.shields.io/badge/MSW_Mock_API-FF6A33?style=for-the-badge&logo=mockserviceworker&logoColor=white)](https://mswjs.io/)
 
 <br/>
 
-Clone it, rename it, start building. Use this as the base for every new React project.
+Clone it, rename it, start building. Use this as the base for every new SaaS or Enterprise React project!
 
 </div>
 
 ---
 
-## 🎯 Highlights
+## ✨ Features & Highlights
+
+> 💡 **Built for Speed and Scale:** Everything you need to launch a B2B SaaS, Admin Dashboard, or Enterprise Portal right out of the box.
 
 | | Feature | Details |
 |---|---|---|
@@ -26,6 +30,8 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 | 🗜️ | **Gzip + Brotli** | Pre-compressed `.gz` and `.br` for every asset |
 | 🛡️ | **Error Boundary** | Global crash handler with retry/reload/go-home actions |
 | 📊 | **DataTable** | Reusable table with 11+ settings, pagination, frozen columns, localStorage persistence |
+| 📅 | **Event Calendar** | Full-page custom calendar view built with `date-fns` |
+| 📋 | **Kanban Board** | Responsive drag-and-drop task board built with `@hello-pangea/dnd` |
 | 🔐 | **Auth system** | Context-based auth with token storage, route guards, auto-restore |
 | 💀 | **Skeleton loaders** | 7 presets (card, table, text, profile, form, page) — used as route fallbacks |
 | 🎨 | **Component library** | 16+ production-ready UI components |
@@ -46,16 +52,18 @@ Clone it, rename it, start building. Use this as the base for every new React pr
 
 | Category | Technology | Version |
 |----------|-----------|---------|
-| **UI Framework** | [React](https://react.dev/) | 19.2 |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) | 5.9 |
-| **Build Tool** | [Vite](https://vite.dev/) | 7.3 |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/) (Vite plugin) | 4.1 |
-| **Routing** | [React Router DOM](https://reactrouter.com/) | 7.13 |
-| **HTTP Client** | [Axios](https://axios-http.com/) | 1.13 |
-| **Icons** | [Lucide React](https://lucide.dev/) | 0.563 |
-| **Cmd+K Menu**| [cmdk](https://cmdk.paco.me/) | 1.0 |
-| **Charts** | [Recharts](https://recharts.org/) | 3.7 |
-| **Linting** | [ESLint](https://eslint.org/) (flat config) | 9.39 |
+| **UI Framework** | ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) | 19.2 |
+| **Language** | ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white) | 5.9 |
+| **Build Tool** | ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=flat-square&logo=vite&logoColor=FFD62E) | 7.3 |
+| **Styling** | ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) | 4.1 |
+| **Routing** | ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=react-router&logoColor=white) | 7.13 |
+| **HTTP Client** | ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white) | 1.13 |
+| **Icons** | ![Lucide](https://img.shields.io/badge/Lucide_React-F8DF68?style=flat-square&logo=lucide&logoColor=black) | 0.563 |
+| **Cmd+K Menu**| ![cmdk](https://img.shields.io/badge/cmdk-000000?style=flat-square) | 1.0 |
+| **Drag & Drop**| ![@hello-pangea](https://img.shields.io/badge/@hello--pangea/dnd-333333?style=flat-square) | 17.0 |
+| **Date Utils**| ![date-fns](https://img.shields.io/badge/date--fns-770C56?style=flat-square) | 4.1 |
+| **Charts** | ![Recharts](https://img.shields.io/badge/Recharts-22B5BF?style=flat-square) | 3.7 |
+| **Linting** | ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white) | 9.39 |
 
 ---
 
@@ -244,6 +252,8 @@ src/
 | `SplashScreen` | Animated loading screen on first visit |
 | `GTranslate` | Google Translate widget with host-aware config |
 | `CommandPalette` | 🆕 Global Cmd+K quick actions and navigation menu |
+| `EventCalendar`  | 🆕 Monthly calendar view supporting event dot indicators |
+| `KanbanBoard`    | 🆕 Generic drag-and-drop columns with rich customizable task cards |
 | `ProtectedRoute` | Auth route guard (redirects to `/login`) |
 | `GuestRoute` | Guest-only route guard (redirects to `/dashboard`) |
 
@@ -661,6 +671,8 @@ The `index.html` is production-ready for "View Page Source":
 | `/dashboard` | Dashboard | Authenticated | Protected |
 | `/lead-management` | Lead Management | Authenticated | Protected |
 | `/sales-funnel/all-deals` | All Deals | Authenticated | Protected |
+| `/calendar-tasks` | Calendar & Tasks | Authenticated | Protected |
+| `/kanban-board` | Kanban Board | Authenticated | Protected |
 | `/simple-form` | Simple Form | Authenticated | Protected |
 | `/awesome-form` | Awesome Form | Authenticated | Protected |
 | `/advanced-form` | Advanced Form | Authenticated | Protected |
@@ -909,16 +921,16 @@ addToast({ type: 'info', message: 'Processing...', duration: 6000 });
 
 Defined in `src/index.css` and usable as Tailwind classes (`text-primary`, `bg-success`, etc.):
 
-| Token | Color | Hex |
-|-------|-------|-----|
-| `primary` | 🔵 Blue | `#3b82f6` |
-| `primary-dark` | 🔵 Dark Blue | `#2563eb` |
-| `secondary` | 🟣 Indigo | `#6366f1` |
-| `accent` | 🟡 Amber | `#f59e0b` |
-| `success` | 🟢 Emerald | `#10b981` |
-| `warning` | 🟡 Amber | `#f59e0b` |
-| `error` | 🔴 Red | `#ef4444` |
-| `info` | 🔵 Blue | `#3b82f6` |
+| Token | Color Preview | CSS Variable |
+|-------|---------------|--------------|
+| `primary` | ![#3b82f6](https://placehold.co/15x15/3b82f6/3b82f6.png) Blue | `var(--primary)` |
+| `primary-dark` | ![#2563eb](https://placehold.co/15x15/2563eb/2563eb.png) Dark Blue | `var(--primary-dark)` |
+| `secondary` | ![#6366f1](https://placehold.co/15x15/6366f1/6366f1.png) Indigo | `var(--secondary)` |
+| `accent` | ![#f59e0b](https://placehold.co/15x15/f59e0b/f59e0b.png) Amber | `var(--accent)` |
+| `success` | ![#10b981](https://placehold.co/15x15/10b981/10b981.png) Emerald | `var(--success)` |
+| `warning` | ![#f59e0b](https://placehold.co/15x15/f59e0b/f59e0b.png) Amber | `var(--warning)` |
+| `error` | ![#ef4444](https://placehold.co/15x15/ef4444/ef4444.png) Red | `var(--error)` |
+| `info` | ![#3b82f6](https://placehold.co/15x15/3b82f6/3b82f6.png) Blue | `var(--info)` |
 
 ---
 
