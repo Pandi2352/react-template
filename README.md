@@ -31,6 +31,7 @@ Clone it, rename it, start building. Use this as the base for every new SaaS or 
 | 📦 | **Vendor splitting** | React, Router, Charts, Utils in separate cached chunks |
 | 🗜️ | **Gzip + Brotli** | Pre-compressed `.gz` and `.br` for every asset |
 | 🛡️ | **Error Boundary** | Global crash handler with retry/reload/go-home actions |
+| 📬 | **Email Inbox** | Advanced 10-column email table with search, category tabs, bulk actions, detail panel, colorful avatars, hover actions |
 | 📊 | **DataTable** | Reusable table with 11+ settings, pagination, frozen columns, localStorage persistence |
 | 📅 | **Event Calendar** | Full-page custom calendar view built with `date-fns` |
 | 📋 | **Kanban Board** | Responsive drag-and-drop task board built with `@hello-pangea/dnd` |
@@ -141,6 +142,11 @@ src/
 │   │   ├── ErrorBoundary.tsx    # 🆕 Global crash handler
 │   │   ├── CommandPalette.tsx   # 🆕 Global Cmd+K quick actions menu
 │   │   └── Skeleton.tsx         # 🆕 Skeleton loaders (7 presets)
+│   ├── Table/              # 📬 Email inbox table components
+│   │   ├── table.tsx        #   Base primitives (Table, TableRow, TableCell, etc.)
+│   │   ├── EmailTable.tsx   #   Main email table with headers and select-all
+│   │   ├── EmailRow.tsx     #   Single email row with avatar, star, hover actions
+│   │   └── EmailDetailPanel.tsx  # Side panel for reading email details
 │   └── layout/
 │       ├── Header.tsx
 │       ├── Footer.tsx
@@ -180,6 +186,7 @@ src/
 │   ├── Dashboard.tsx      # Protected dashboard with stats grid
 │   ├── AllDeals.tsx       # 🆕 Pipeline table with DataTable
 │   ├── LeadManagement.tsx # 🆕 Lead table with DataTable
+│   ├── Inbox.tsx            # 📬 Advanced email inbox with 10-column table
 │   ├── SimpleForm.tsx     # 📝 Simple contact form with validation
 │   ├── AwesomeForm.tsx    # 📝 Re-export → awesome-form/
 │   ├── AdvancedForm.tsx   # 📝 Re-export → advanced-form/
@@ -217,6 +224,8 @@ src/
 ├── mocks/                # 🆕 MSW mock API (dev only)
 │   ├── browser.ts        #   Service worker setup
 │   ├── db.ts             #   In-memory mock database
+│   ├── data/
+│   │   └── emails.json    #   📬 15 mock emails for inbox (swap with API later)
 │   └── handlers/
 │       ├── index.ts      #   Handler registry
 │       └── leads.ts      #   CRUD handlers for /leads
@@ -226,7 +235,8 @@ src/
 │   └── leads.service.ts   # 🆕 Leads CRUD API calls
 │
 ├── types/
-│   └── index.ts           # User, NavItem, NavGroup, ApiResponse, AuthTokens
+│   ├── index.ts           # User, NavItem, NavGroup, ApiResponse, AuthTokens
+│   └── email.ts           # 📬 EmailItem, EmailCategory, EmailPriority, EmailFolder, EmailSource
 │
 ├── utils/
 │   ├── cn.ts              # Classname combiner utility
@@ -264,6 +274,30 @@ src/
 | `RichTextEditor` | 🆕 Modern WYSIWYG editor with custom toolbar and HTML output |
 | `ProtectedRoute` | Auth route guard (redirects to `/login`) |
 | `GuestRoute` | Guest-only route guard (redirects to `/dashboard`) |
+
+### Email Inbox Components
+
+| Component | File | Description |
+|-----------|------|-------------|
+| `EmailTable` | `components/Table/EmailTable.tsx` | Main table with select-all checkbox, column headers, empty state |
+| `EmailRow` | `components/Table/EmailRow.tsx` | Single email row with avatar, star, priority dot, hover actions |
+| `EmailDetailPanel` | `components/Table/EmailDetailPanel.tsx` | Side panel with full email body, attachments, Reply/Forward |
+| `table.tsx` | `components/Table/table.tsx` | Base table primitives (`Table`, `TableRow`, `TableCell`, etc.) |
+
+**10 Columns:** Checkbox, Star, From, Subject, Category, Labels, Size, Folder, Source, Date
+
+**Inbox Page Features:**
+- Category tabs (All Mail, Primary, Promotions, Social, Updates) with live counts
+- Full-text search across name, email, subject, preview, labels
+- Read filter toggle (All / Unread / Read)
+- Bulk actions bar (Mark Read, Archive, Delete)
+- Colorful gradient avatars (unique per sender initial A-Z)
+- Priority indicators (red/amber/gray dots with ring glow)
+- Hover actions (mark read/unread, archive, delete) replace date on hover
+- Split view: email list + detail panel side-by-side on desktop
+- Attachment cards with color-coded file type icons and download buttons
+- Reply / Reply All / Forward action buttons
+- Mock data in `mocks/data/emails.json` — swap with API later
 
 ### Data & Table Components
 
@@ -714,6 +748,7 @@ We've included a `vercel.json` file that:
 | `/sales-funnel/all-deals` | All Deals | Authenticated | Protected |
 | `/calendar-tasks` | Calendar & Tasks | Authenticated | Protected |
 | `/kanban-board` | Kanban Board | Authenticated | Protected |
+| `/inbox` | Email Inbox | Authenticated | Protected |
 | `/charts-suite` | Enterprise Charts | Authenticated | Protected |
 | `/rich-text-editor` | Rich Text Editor | Authenticated | Protected |
 | `/simple-form` | Simple Form | Authenticated | Protected |

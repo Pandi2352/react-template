@@ -15,3 +15,4 @@ export { KanbanBoardPage } from './KanbanBoardPage';
 export { RichTextPage } from './RichTextPage';
 export { ChartsShowcase } from './ChartsShowcase';
 export { PremiumShowcase } from './PremiumShowcase';
+export { Inbox } from './Inbox';

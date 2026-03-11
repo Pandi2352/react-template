@@ -1,3 +1,5 @@
+
+
 import {
   CalendarDays,
   ClipboardList,
@@ -5,6 +7,7 @@ import {
   Filter,
   Kanban,
   LayoutDashboard,
+  Mail,
   Sparkles,
   Rocket,
   Type,
@@ -30,6 +33,7 @@ export interface SidebarItem {
 
 export const sidebarMenuItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, to: ROUTES.DASHBOARD },
+  { id: 'inbox', label: 'Inbox', icon: Mail, to: ROUTES.INBOX },
   {
     id: 'lead-management',
     label: 'Lead Management',

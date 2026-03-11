@@ -25,6 +25,7 @@ export const ROUTES = {
   AWESOME_FORM: '/awesome-form',
   ADVANCED_FORM: '/advanced-form',
   PREMIUM_COMPONENTS: '/premium-components',
+  INBOX: '/inbox',
   SETTINGS: '/settings',
 } as const;
 

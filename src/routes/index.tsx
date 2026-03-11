@@ -19,6 +19,7 @@ const KanbanBoardPage = lazy(() => import('@/pages/KanbanBoardPage').then((m) =>
 const RichTextPage = lazy(() => import('@/pages/RichTextPage').then((m) => ({ default: m.RichTextPage })));
 const ChartsShowcase = lazy(() => import('@/pages/ChartsShowcase').then((m) => ({ default: m.ChartsShowcase })));
 const PremiumShowcase = lazy(() => import('@/pages/PremiumShowcase').then((m) => ({ default: m.PremiumShowcase })));
+const Inbox = lazy(() => import('@/pages/Inbox').then((m) => ({ default: m.Inbox })));
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })));
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })));
 
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
     element: <AuthenticatedLayout />,
     children: [
       { path: ROUTES.DASHBOARD, element: <Lazy fallback={<PageSkeleton />}><Dashboard /></Lazy> },
+      { path: ROUTES.INBOX, element: <Lazy fallback={<TableSkeleton rows={10} columns={7} />}><Inbox /></Lazy> },
       { path: ROUTES.TEAM_DASHBOARDS, element: <DummyPage title="Team Dashboards" /> },
       { path: ROUTES.REGIONAL_DASHBOARDS, element: <DummyPage title="Regional Dashboards" /> },
       { path: ROUTES.LEAD_MANAGEMENT, element: <Lazy fallback={<TableSkeleton rows={8} columns={6} />}><LeadManagement /></Lazy> },
